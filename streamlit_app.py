@@ -121,16 +121,20 @@ sim_matrix = get_sim_matrix()
 
 @st.cache_resource
 def load_model():
-    import torch
-    from sentence_transformers import SentenceTransformer
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    return SentenceTransformer(
-        "jinaai/jina-embeddings-v5-text-nano",
-        trust_remote_code=True,
-        revision="refs/pr/11",
-        device=device,
-        model_kwargs={"torch_dtype": torch.bfloat16, "default_task": "text-matching"},
-    )
+    try:
+        from sentence_transformers import SentenceTransformer
+        import torch
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        return SentenceTransformer(
+            "jinaai/jina-embeddings-v5-text-nano",
+            trust_remote_code=True,
+            revision="refs/pr/11",
+            device=device,
+            model_kwargs={"torch_dtype": torch.bfloat16, "default_task": "text-matching"},
+        )
+    except Exception as e:
+        st.exception(e)
+        raise
 
 # ── Session state ────────────────────────────────────────
 if "page" not in st.session_state:
