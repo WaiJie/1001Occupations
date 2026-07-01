@@ -122,29 +122,23 @@ sim_matrix = get_sim_matrix()
 @st.cache_resource
 def load_model():
     print("[load_model] Starting...", flush=True)
-    try:
-        from sentence_transformers import SentenceTransformer
-        import torch
-        cuda_avail = torch.cuda.is_available()
-        print(f"[load_model] torch available: {cuda_avail}", flush=True)
-        device = torch.device("cuda" if cuda_avail else "cpu")
-        dtype = torch.float16 if cuda_avail else torch.float32
-        print(f"[load_model] Device: {device}, dtype: {dtype}", flush=True)
-        print("[load_model] Loading SentenceTransformer...", flush=True)
-        model = SentenceTransformer(
-            "jinaai/jina-embeddings-v5-text-nano",
-            trust_remote_code=True,
-            revision="refs/pr/11",
-            device=device,
-            model_kwargs={"torch_dtype": dtype, "default_task": "text-matching"},
-        )
-        print("[load_model] Done", flush=True)
-        return model
-    except Exception as e:
-        import traceback
-        print(f"[load_model ERROR]: {e}", flush=True)
-        traceback.print_exc()
-        raise
+    from sentence_transformers import SentenceTransformer
+    import torch
+    cuda_avail = torch.cuda.is_available()
+    print(f"[load_model] torch available: {cuda_avail}", flush=True)
+    device = torch.device("cuda" if cuda_avail else "cpu")
+    dtype = torch.float16 if cuda_avail else torch.float32
+    print(f"[load_model] Device: {device}, dtype: {dtype}", flush=True)
+    print("[load_model] Loading SentenceTransformer...", flush=True)
+    model = SentenceTransformer(
+        "jinaai/jina-embeddings-v5-text-nano",
+        trust_remote_code=True,
+        revision="refs/pr/11",
+        device=device,
+        model_kwargs={"torch_dtype": dtype, "default_task": "text-matching"},
+    )
+    print("[load_model] Done", flush=True)
+    return model
 
 # ── Session state ────────────────────────────────────────
 if "page" not in st.session_state:
@@ -593,6 +587,17 @@ else:
         with col_img:
             st.image("assets/Landing_page.png", width="stretch")
         st.markdown("<p style='text-align:center; font-size:1.2rem; color:#555;'>Upload your resume to discover occupations and find matching jobs.</p>", unsafe_allow_html=True)
+
+        with st.expander("Debug: Package Versions"):
+            import torch, transformers, sentence_transformers, huggingface_hub, pandas, numpy
+            st.write({
+                "torch": torch.__version__,
+                "transformers": transformers.__version__,
+                "sentence-transformers": sentence_transformers.__version__,
+                "huggingface_hub": huggingface_hub.__version__,
+                "pandas": pandas.__version__,
+                "numpy": numpy.__version__,
+            })
 
         btn_label = "Go to My Profile" if st.session_state.profile["resume"].strip() else "Upload Resume"
         if st.button(btn_label, type="primary", width="stretch"):
