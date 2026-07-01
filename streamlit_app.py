@@ -121,20 +121,22 @@ sim_matrix = get_sim_matrix()
 
 @st.cache_resource
 def load_model():
-    try:
-        from sentence_transformers import SentenceTransformer
-        import torch
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        return SentenceTransformer(
-            "jinaai/jina-embeddings-v5-text-nano",
-            trust_remote_code=True,
-            revision="refs/pr/11",
-            device=device,
-            model_kwargs={"torch_dtype": torch.bfloat16, "default_task": "text-matching"},
-        )
-    except Exception as e:
-        st.exception(e)
-        raise
+    print("[load_model] Starting...", flush=True)
+    from sentence_transformers import SentenceTransformer
+    import torch
+    print(f"[load_model] torch available: {torch.cuda.is_available()}", flush=True)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"[load_model] Device: {device}", flush=True)
+    print("[load_model] Loading SentenceTransformer...", flush=True)
+    model = SentenceTransformer(
+        "jinaai/jina-embeddings-v5-text-nano",
+        trust_remote_code=True,
+        revision="refs/pr/11",
+        device=device,
+        model_kwargs={"torch_dtype": torch.bfloat16, "default_task": "text-matching"},
+    )
+    print("[load_model] Done", flush=True)
+    return model
 
 # ── Session state ────────────────────────────────────────
 if "page" not in st.session_state:
@@ -581,11 +583,11 @@ else:
     if st.session_state.nav_tab == "Home":
         col_img_left, col_img, col_img_right = st.columns([1, 2, 1])
         with col_img:
-            st.image("assets/Landing_page.png", use_container_width=True)
+            st.image("assets/Landing_page.png", width="stretch")
         st.markdown("<p style='text-align:center; font-size:1.2rem; color:#555;'>Upload your resume to discover occupations and find matching jobs.</p>", unsafe_allow_html=True)
 
         btn_label = "Go to My Profile" if st.session_state.profile["resume"].strip() else "Upload Resume"
-        if st.button(btn_label, type="primary", use_container_width=True):
+        if st.button(btn_label, type="primary", width="stretch"):
             st.session_state.nav_target = "My Profile"
             st.rerun()
 
@@ -604,7 +606,7 @@ else:
                 label = next(m[1] for m in MODES if m[0] == st.session_state.profile["career_direction"])
                 st.markdown("**Career Direction**")
                 st.info(label)
-            if st.button("Continue Finding Jobs", type="primary", use_container_width=True):
+            if st.button("Continue Finding Jobs", type="primary", width="stretch"):
                 st.session_state.nav_target = "Find Jobs"
                 st.rerun()
 
@@ -657,7 +659,7 @@ else:
                                 st.markdown(f"##### {res['title']}")
                                 st.markdown(f"Code: {res['code']}  \nMatch: {res['score']:.0%}")
                                 sel = st.session_state.profile["preferred_code"] == res['code']
-                                if st.button("Select", key=f"sel_{res['code']}", use_container_width=True, disabled=sel,
+                                if st.button("Select", key=f"sel_{res['code']}", width="stretch", disabled=sel,
                                              type="primary" if sel else "secondary"):
                                     st.session_state.profile["preferred_code"] = res['code']
                                     st.session_state.profile["preferred_title"] = res['title']
@@ -667,7 +669,7 @@ else:
                 st.info("Save your resume to see occupation matches.")
 
             st.markdown("Want to try something different?")
-            if st.button("Browse occupations", type="primary", use_container_width=True):
+            if st.button("Browse occupations", type="primary", width="stretch"):
                 st.session_state.nav_target = "Explore Occupations"
                 st.rerun()
 
@@ -734,7 +736,7 @@ else:
                 code = int(row["occupation_code"])
                 with st.container(border=True):
                     st.markdown(f"**{code}** — {row['occupation_title']}")
-                    if st.button("View", key=f"eo_s_{code}", use_container_width=True):
+                    if st.button("View", key=f"eo_s_{code}", width="stretch"):
                         st.query_params["occupation"] = str(code)
                         st.session_state.selected_code = code
                         st.session_state.page = "occupation"
@@ -790,7 +792,7 @@ else:
             color="job_post_count", color_continuous_scale="Blues",
         )
         fig.update_layout(yaxis=dict(autorange="reversed"), margin=dict(l=0, r=0, t=0, b=0))
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
         st.subheader(f"{pmet_filter}: {len(filtered)} Occupations")
         display_cols = ["occ_code", "title", "job_post_count", "avg_sal_min", "avg_sal_max", "median_sal", "mean_exp", "median_exp"]
@@ -799,7 +801,7 @@ else:
             "avg_sal_min": "Avg Sal Min", "avg_sal_max": "Avg Sal Max", "median_sal": "Median Sal",
             "mean_exp": "Avg Exp (yr)", "median_exp": "Median Exp (yr)",
         })
-        st.dataframe(display, use_container_width=True, hide_index=True,
+        st.dataframe(display, width="stretch", hide_index=True,
                      column_config={
                          "Avg Sal Min": st.column_config.NumberColumn(format="$%.0f"),
                          "Avg Sal Max": st.column_config.NumberColumn(format="$%.0f"),
@@ -840,13 +842,13 @@ else:
 
             col_prev, col_info, col_next = st.columns([1, 2, 1])
             with col_prev:
-                if st.button("◀", disabled=page <= 1, use_container_width=True):
+                if st.button("◀", disabled=page <= 1, width="stretch"):
                     st.session_state.job_page = page - 1
                     st.rerun()
             with col_info:
                 st.markdown(f"<div style='text-align:center'>Page {page} of {total_pages}</div>", unsafe_allow_html=True)
             with col_next:
-                if st.button("▶", disabled=page >= total_pages, use_container_width=True):
+                if st.button("▶", disabled=page >= total_pages, width="stretch"):
                     st.session_state.job_page = page + 1
                     st.rerun()
 
@@ -878,7 +880,7 @@ else:
                             for sent, sc in res["snippets"]:
                                 st.markdown(f"- {sent} ({sc:.0%})")
 
-            if st.button("Refresh results", type="primary", use_container_width=True):
+            if st.button("Refresh results", type="primary", width="stretch"):
                 with st.status("Finding matching jobs...", expanded=False) as s:
                     s.write("Computing...")
                     st.session_state.job_match_results = compute_job_matches(resume_weight)
@@ -887,7 +889,7 @@ else:
                 st.rerun()
         elif ready:
             st.info("Click below to find matching jobs.")
-            if st.button("Find matching jobs", type="primary", use_container_width=True):
+            if st.button("Find matching jobs", type="primary", width="stretch"):
                 with st.status("Finding matching jobs...", expanded=False) as s:
                     s.write("Computing...")
                     st.session_state.job_match_results = compute_job_matches(resume_weight)
@@ -925,7 +927,7 @@ Paste a job description below and we'll score it based on your **resume**, **tar
             label = next(m[1] for m in MODES if m[0] == st.session_state.profile["career_direction"])
 
             if st.session_state.byo_input.strip():
-                if st.button("Add to List", type="primary", use_container_width=True):
+                if st.button("Add to List", type="primary", width="stretch"):
                     with st.status("Analysing...", expanded=False) as s:
                         s.write("Computing...")
                         result = compute_byo_match(st.session_state.byo_input, resume_weight)
@@ -957,7 +959,7 @@ Paste a job description below and we'll score it based on your **resume**, **tar
 
                 col_refresh, col_clear = st.columns(2)
                 with col_refresh:
-                    if st.button("Re-analyse All", type="primary", use_container_width=True):
+                    if st.button("Re-analyse All", type="primary", width="stretch"):
                         with st.status("Re-analysing all jobs...") as s:
                             new_jobs = []
                             for i, job in enumerate(st.session_state.byo_jobs):
@@ -967,7 +969,7 @@ Paste a job description below and we'll score it based on your **resume**, **tar
                             s.update(label="Done", state="complete")
                         st.rerun()
                 with col_clear:
-                    if st.button("Clear All", use_container_width=True):
+                    if st.button("Clear All", width="stretch"):
                         st.session_state.byo_jobs = []
                         st.rerun()
 
