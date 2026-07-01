@@ -1,0 +1,1002 @@
+code,title,major_code,major_title
+11110,Legislator,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+11121,Senior government official,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+11122,Senior statutory board official,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+11140,Senior official of political party organisation,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+11150,Senior official of employers’/workers’ and related economic-interest organisation,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+11160,Senior official of humanitarian and other special-interest organisation,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+11201,Managing director/Chief executive officer,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+11202,Company director,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+11203,Chief operating officer/General manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+12111,Budgeting/Financial accounting manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+12112,Administration manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+12113,Audit manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+12121,Personnel/Human resource manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+12122,Industrial relations manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+12123,Training manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+12131,Policy manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+12132,Strategic planning manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+12133,Risk management manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+12191,Premises/Facilities maintenance manager (excluding building security),1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+12192,Landscape manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+12193,Cleaning operations manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+12194,Security manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+12195,Intellectual property manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+12199,Other business services/administration manager n.e.c.,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+12211,Sales manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+12212,Business development manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+12213,Regional sales manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+12214,Merchandising/Category manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+12215,Online sales channel manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+12221,Advertising/Public relations manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+12222,Marketing manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+12230,Research and development manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+12241,Customer service manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+12242,Call centre manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13100,Production manager in agriculture/fisheries,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13210,Manufacturing manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13230,Construction manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13241,Supply and distribution/Logistics/Warehousing manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13242,Procurement/Purchasing manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13243,Transport/Technical operations manager (excluding port and shipping operations),1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13244,Postal service manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13245,Port/Shipping operations manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13291,Technical/Engineering services manager (excluding transport),1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13292,Quality control/assurance manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13299,Other production/operations manager n.e.c.,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13301,Chief information officer/Chief technology officer/Chief information security officer,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13302,Software and applications manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13303,Network/Communications/Infrastructure manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13304,ICT service manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13305,Chief product officer,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13306,ICT product design manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13410,Preschool education/Early intervention centre manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13420,Health services manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13430,Aged care services manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13441,Social services manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13442,Volunteer manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13451,School principal,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13459,Education/Training institution manager n.e.c.,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13461,Financial services manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13462,Insurance services manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13463,Financial risk manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13491,National security/Civil defence/Immigration managerial officer,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13492,Community partnership/relations manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13493,Media/Broadcast manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+13499,Other professional/financial/community/social services manager n.e.c.,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+14110,Hotel operations/Lodging services manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+14121,Restaurant manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+14122,Catering manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+14123,Food and beverage operations manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+14201,Retail manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+14202,Wholesale trade manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+14310,Sports centre manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+14321,Casino operations manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+14322,Attractions manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+14323,Discotheque/Karaoke/Nightclub manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+14324,Wellness centre manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+14325,Country club manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+14329,Recreation centre manager n.e.c.,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+14330,Arts/Cultural centre manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+14391,Event manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+14392,Travel agency manager,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+14399,Other services manager n.e.c.,1,"LEGISLATORS, SENIOR OFFICIALS AND MANAGERS"
+21110,Physicist/Astronomer,2,PROFESSIONALS
+21120,Meteorologist,2,PROFESSIONALS
+21130,Chemist,2,PROFESSIONALS
+21141,Geologist,2,PROFESSIONALS
+21142,Geophysicist,2,PROFESSIONALS
+21149,Geologist/Geophysicist and related physical science professional n.e.c.,2,PROFESSIONALS
+21211,Mathematician,2,PROFESSIONALS
+21212,Operations research analyst,2,PROFESSIONALS
+21213,Actuary,2,PROFESSIONALS
+21221,Statistician,2,PROFESSIONALS
+21222,Data scientist,2,PROFESSIONALS
+21231,Statistical officer/Data analyst,2,PROFESSIONALS
+21239,Other statistical/mathematical/actuarial professional n.e.c.,2,PROFESSIONALS
+21311,Biologist,2,PROFESSIONALS
+21312,Zoologist,2,PROFESSIONALS
+21319,Biologist/Botanist/Zoologist and related professional n.e.c.,2,PROFESSIONALS
+21321,Horticulturist/Arborist,2,PROFESSIONALS
+21322,Aquaculturist,2,PROFESSIONALS
+21323,Agriculturist,2,PROFESSIONALS
+21329,Farming/Forestry/Fishery adviser n.e.c.,2,PROFESSIONALS
+21331,Environmental officer (environmental protection),2,PROFESSIONALS
+21332,Environment research scientist,2,PROFESSIONALS
+21333,Environmental analyst,2,PROFESSIONALS
+21339,Environmental protection and related professional n.e.c.,2,PROFESSIONALS
+21341,Pharmacologist,2,PROFESSIONALS
+21342,Medical laboratory scientist,2,PROFESSIONALS
+21343,Biochemist,2,PROFESSIONALS
+21344,Physiologist,2,PROFESSIONALS
+21345,Animal scientist,2,PROFESSIONALS
+21346,Medical scientist,2,PROFESSIONALS
+21347,Clinical research professional,2,PROFESSIONALS
+21349,Pharmacologist and related professional n.e.c.,2,PROFESSIONALS
+21411,Manufacturing engineer,2,PROFESSIONALS
+21412,Production engineer,2,PROFESSIONALS
+21413,Automation engineer,2,PROFESSIONALS
+21414,Quality control/assurance engineer,2,PROFESSIONALS
+21415,Process engineer,2,PROFESSIONALS
+21421,Civil engineer,2,PROFESSIONALS
+21422,Building construction engineer,2,PROFESSIONALS
+21430,Environmental engineer,2,PROFESSIONALS
+21441,Mechanical engineer,2,PROFESSIONALS
+21442,Industrial machinery/tools engineer,2,PROFESSIONALS
+21443,Air-conditioning/Refrigeration engineer,2,PROFESSIONALS
+21444,Port equipment engineer,2,PROFESSIONALS
+21451,Chemical engineer (excluding petroleum and petrochemical),2,PROFESSIONALS
+21452,Chemical engineer (petroleum),2,PROFESSIONALS
+21453,Chemical engineer (petrochemical),2,PROFESSIONALS
+21454,Food/Drink technologist,2,PROFESSIONALS
+21460,Mining engineer/Metallurgist and related professional,2,PROFESSIONALS
+21471,Aeronautical engineer,2,PROFESSIONALS
+21472,Automotive engineer,2,PROFESSIONALS
+21473,Marine engineer,2,PROFESSIONALS
+21474,Naval architect,2,PROFESSIONALS
+21475,Rolling stock engineer,2,PROFESSIONALS
+21491,Biomedical engineer,2,PROFESSIONALS
+21492,Materials engineer,2,PROFESSIONALS
+21493,Industrial safety engineer,2,PROFESSIONALS
+21494,Quantity surveyor,2,PROFESSIONALS
+21495,Intellectual property engineer,2,PROFESSIONALS
+21496,Energy engineer,2,PROFESSIONALS
+21497,Optical engineer,2,PROFESSIONALS
+21498,Procurement engineer,2,PROFESSIONALS
+21499,Other engineering professional n.e.c.,2,PROFESSIONALS
+21511,Electrical engineer,2,PROFESSIONALS
+21512,Power generation/distribution engineer,2,PROFESSIONALS
+21513,Lift engineer,2,PROFESSIONALS
+21521,Electronics engineer,2,PROFESSIONALS
+21522,Computer engineer,2,PROFESSIONALS
+21523,Semi-conductor engineer,2,PROFESSIONALS
+21524,Audio/Video equipment engineer,2,PROFESSIONALS
+21525,Instrumentation engineer,2,PROFESSIONALS
+21526,Embedded systems engineer,2,PROFESSIONALS
+21531,Media/Broadcast engineer,2,PROFESSIONALS
+21532,Telecommunications engineer,2,PROFESSIONALS
+21610,Building architect,2,PROFESSIONALS
+21621,Landscape architect,2,PROFESSIONALS
+21622,Landscape designer,2,PROFESSIONALS
+21631,Fashion designer,2,PROFESSIONALS
+21632,Product/Industrial designer,2,PROFESSIONALS
+21641,Urban planner,2,PROFESSIONALS
+21649,Urban and related planner n.e.c.,2,PROFESSIONALS
+21651,Land surveyor,2,PROFESSIONALS
+21652,Hydrographic surveyor,2,PROFESSIONALS
+21659,Surveyor/Cartographer n.e.c.,2,PROFESSIONALS
+21661,Graphic designer,2,PROFESSIONALS
+21662,Multimedia designer/artist/animator,2,PROFESSIONALS
+21669,Graphic/Multimedia designer/artist n.e.c.,2,PROFESSIONALS
+21670,Service designer,2,PROFESSIONALS
+21711,Chief/Second engineer (ship),2,PROFESSIONALS
+21712,Technical superintendent,2,PROFESSIONALS
+21713,Ship captain/Chief mate,2,PROFESSIONALS
+21714,Marine superintendent,2,PROFESSIONALS
+21721,Commercial airline pilot,2,PROFESSIONALS
+21722,Aircraft pilot (excluding commercial airline and air force),2,PROFESSIONALS
+21723,Flying instructor (excluding air force),2,PROFESSIONALS
+21724,Flight engineer,2,PROFESSIONALS
+21729,Aircraft pilot and related professional n.e.c.,2,PROFESSIONALS
+22110,General practitioner/Physician,2,PROFESSIONALS
+22121,Cardiologist,2,PROFESSIONALS
+22122,Dermatologist,2,PROFESSIONALS
+22123,Gastroenterologist,2,PROFESSIONALS
+22124,Internal medicine physician,2,PROFESSIONALS
+22125,Medical oncologist,2,PROFESSIONALS
+22126,Paediatrician,2,PROFESSIONALS
+22127,Respiratory physician,2,PROFESSIONALS
+22128,Psychiatrist,2,PROFESSIONALS
+22129,Specialist medical practitioner (medical) n.e.c.,2,PROFESSIONALS
+22131,General surgeon,2,PROFESSIONALS
+22132,Cardiothoracic surgeon,2,PROFESSIONALS
+22133,Hand surgeon,2,PROFESSIONALS
+22134,Neurosurgeon,2,PROFESSIONALS
+22135,Orthopaedic surgeon,2,PROFESSIONALS
+22136,Paediatric surgeon,2,PROFESSIONALS
+22137,Plastic surgeon,2,PROFESSIONALS
+22138,Urologist,2,PROFESSIONALS
+22139,Specialist medical practitioner (surgical) n.e.c.,2,PROFESSIONALS
+22141,Anaesthesiologist,2,PROFESSIONALS
+22142,Diagnostic radiologist,2,PROFESSIONALS
+22143,Emergency physician,2,PROFESSIONALS
+22144,Obstetrician/Gynaecologist,2,PROFESSIONALS
+22145,Ophthalmologist,2,PROFESSIONALS
+22146,Pathologist,2,PROFESSIONALS
+22147,Public health physician,2,PROFESSIONALS
+22148,"Otorhinolaryngologist/Ear, nose, throat (ENT) specialist",2,PROFESSIONALS
+22149,Specialist medical practitioner (other specialisation) n.e.c.,2,PROFESSIONALS
+22200,Registered nurse and related nursing professional (excluding enrolled nurse),2,PROFESSIONALS
+22301,Traditional Chinese medicine practitioner,2,PROFESSIONALS
+22302,Traditional Chinese medicine acupuncturist,2,PROFESSIONALS
+22500,Veterinarian,2,PROFESSIONALS
+22611,General dental practitioner,2,PROFESSIONALS
+22612,Specialised dentist,2,PROFESSIONALS
+22621,Pharmacist (patient care),2,PROFESSIONALS
+22629,Pharmacist n.e.c.,2,PROFESSIONALS
+22631,Occupational health and safety professional,2,PROFESSIONALS
+22632,Environmental officer (public health),2,PROFESSIONALS
+22639,Environmental and occupational health and hygiene professional n.e.c.,2,PROFESSIONALS
+22640,Physiotherapist,2,PROFESSIONALS
+22651,Dietitian,2,PROFESSIONALS
+22652,Nutritionist,2,PROFESSIONALS
+22661,Audiologist,2,PROFESSIONALS
+22662,Speech therapist,2,PROFESSIONALS
+22670,Optometrist,2,PROFESSIONALS
+22680,Occupational therapist,2,PROFESSIONALS
+22691,Chiropractor,2,PROFESSIONALS
+22692,Podiatrist,2,PROFESSIONALS
+22693,Diagnostic radiographer,2,PROFESSIONALS
+22694,Radiation therapist,2,PROFESSIONALS
+22699,Other health professional n.e.c.,2,PROFESSIONALS
+23101,University lecturer,2,PROFESSIONALS
+23102,Polytechnic lecturer,2,PROFESSIONALS
+23103,Teaching assistant/Tutor in university,2,PROFESSIONALS
+23109,University/Polytechnic/Higher education teacher n.e.c.,2,PROFESSIONALS
+23200,Junior college/Pre-university teacher,2,PROFESSIONALS
+23300,Technical/Vocational/Commercial education institute teacher/trainer,2,PROFESSIONALS
+23400,Secondary school teacher,2,PROFESSIONALS
+23500,Primary school teacher,2,PROFESSIONALS
+23611,Education methods adviser,2,PROFESSIONALS
+23612,Instructional designer/technologist,2,PROFESSIONALS
+23619,Education methods specialist n.e.c.,2,PROFESSIONALS
+23621,Teacher of the visually impaired,2,PROFESSIONALS
+23622,Early intervention teacher for infants and children,2,PROFESSIONALS
+23629,Special education teacher n.e.c.,2,PROFESSIONALS
+23690,Teaching professional n.e.c.,2,PROFESSIONALS
+24111,Accountant (excluding tax accountant),2,PROFESSIONALS
+24112,Auditor (accounting),2,PROFESSIONALS
+24113,Tax accountant,2,PROFESSIONALS
+24121,Financial/Investment adviser,2,PROFESSIONALS
+24122,Business valuer,2,PROFESSIONALS
+24131,Financial analyst,2,PROFESSIONALS
+24132,Compliance officer/Risk analyst (financial),2,PROFESSIONALS
+24133,Fund/Portfolio manager,2,PROFESSIONALS
+24134,Treasury manager,2,PROFESSIONALS
+24135,Financial product structurer,2,PROFESSIONALS
+24136,Energy portfolio manager,2,PROFESSIONALS
+24139,Financial analyst and related professional n.e.c.,2,PROFESSIONALS
+24141,Securities/Finance dealer,2,PROFESSIONALS
+24142,Foreign exchange dealer,2,PROFESSIONALS
+24143,Financial derivatives dealer,2,PROFESSIONALS
+24149,Securities/Finance dealer n.e.c.,2,PROFESSIONALS
+24151,Securities/Finance broker,2,PROFESSIONALS
+24152,Foreign exchange broker,2,PROFESSIONALS
+24153,Financial derivatives broker,2,PROFESSIONALS
+24154,Commodities/Freight derivatives broker,2,PROFESSIONALS
+24159,Securities/Finance broker n.e.c.,2,PROFESSIONALS
+24160,Insurance underwriter,2,PROFESSIONALS
+24211,Management consultant,2,PROFESSIONALS
+24212,Business consultant,2,PROFESSIONALS
+24213,Business/Financial project management professional,2,PROFESSIONALS
+24214,Sustainability project development/management professional,2,PROFESSIONALS
+24221,Policy administration professional,2,PROFESSIONALS
+24222,Risk analyst (non-financial),2,PROFESSIONALS
+24231,Human resource consultant (excluding executive search consultant),2,PROFESSIONALS
+24232,Executive search consultant,2,PROFESSIONALS
+24233,Personnel/Human resource officer,2,PROFESSIONALS
+24234,Industrial relations officer,2,PROFESSIONALS
+24240,Training/Staff development professional,2,PROFESSIONALS
+24251,Intellectual property agent,2,PROFESSIONALS
+24252,Intellectual property examiner,2,PROFESSIONALS
+24291,Research officer (non-statistical),2,PROFESSIONALS
+24299,Other administration professional n.e.c.,2,PROFESSIONALS
+24311,Creative advertising professional,2,PROFESSIONALS
+24312,Market research professional,2,PROFESSIONALS
+24313,Marketing strategy/planning professional,2,PROFESSIONALS
+24314,Digital marketing professional,2,PROFESSIONALS
+24315,Revenue specialist,2,PROFESSIONALS
+24320,Public relations/Corporate communications professional,2,PROFESSIONALS
+24331,Technical sales professional,2,PROFESSIONALS
+24332,Medical/Pharmaceutical products sales professional,2,PROFESSIONALS
+24333,ICT sales and services professional,2,PROFESSIONALS
+24334,Sales professional (institutional sales of financial products),2,PROFESSIONALS
+24339,Specialised goods sales professional n.e.c.,2,PROFESSIONALS
+24351,"Commodities trader (excluding oil, bunker and environmental commodities)",2,PROFESSIONALS
+24352,Oil/Bunker trader,2,PROFESSIONALS
+24353,Ship charterer,2,PROFESSIONALS
+24354,Environmental commodities trader,2,PROFESSIONALS
+24361,Trade broker,2,PROFESSIONALS
+24362,Ship broker,2,PROFESSIONALS
+25111,Systems designer/analyst,2,PROFESSIONALS
+25112,ICT business process consultant/business analyst,2,PROFESSIONALS
+25113,Enterprise/Solution/Software architect,2,PROFESSIONALS
+25114,ICT product manager,2,PROFESSIONALS
+25121,Software developer,2,PROFESSIONALS
+25122,Web/Mobile applications developer,2,PROFESSIONALS
+25123,Multimedia-games developer/designer,2,PROFESSIONALS
+25124,Interaction designer,2,PROFESSIONALS
+25125,DevOps engineer,2,PROFESSIONALS
+25141,Applications/Systems programmer,2,PROFESSIONALS
+25142,Artificial intelligence applied researcher,2,PROFESSIONALS
+25143,Artificial intelligence/Machine learning engineer,2,PROFESSIONALS
+25151,ICT quality assurance specialist,2,PROFESSIONALS
+25152,ICT auditor,2,PROFESSIONALS
+25190,Software and applications developer/analyst n.e.c.,2,PROFESSIONALS
+25211,Data/Database administrator,2,PROFESSIONALS
+25212,Data/Database architect,2,PROFESSIONALS
+25213,Data engineer,2,PROFESSIONALS
+25220,Network/Server/Applications/Computer systems administrator,2,PROFESSIONALS
+25231,Cloud specialist,2,PROFESSIONALS
+25232,IT infrastructure specialist,2,PROFESSIONALS
+25233,Automation and orchestration engineer,2,PROFESSIONALS
+25239,Computer network/infrastructure/platform professional n.e.c.,2,PROFESSIONALS
+25241,Cyber risk specialist,2,PROFESSIONALS
+25242,Penetration testing specialist,2,PROFESSIONALS
+25243,Security operations specialist,2,PROFESSIONALS
+25244,Digital forensics specialist,2,PROFESSIONALS
+25245,Cybersecurity architect,2,PROFESSIONALS
+25246,Cyber incident investigation specialist,2,PROFESSIONALS
+25247,Threat analysis specialist,2,PROFESSIONALS
+25249,Cybersecurity professional n.e.c.,2,PROFESSIONALS
+25291,Data centre engineer,2,PROFESSIONALS
+25299,Other database/network/infrastructure/cybersecurity professional n.e.c.,2,PROFESSIONALS
+26111,Advocate/Solicitor (practising),2,PROFESSIONALS
+26112,"In-house legal counsel (excluding judiciary, ministries and statutory boards)",2,PROFESSIONALS
+26119,Lawyer n.e.c.,2,PROFESSIONALS
+26120,Judge,2,PROFESSIONALS
+26191,Arbitrator/Mediator,2,PROFESSIONALS
+26199,Other legal professional n.e.c.,2,PROFESSIONALS
+26211,Archivist,2,PROFESSIONALS
+26212,Curator,2,PROFESSIONALS
+26213,Conservator,2,PROFESSIONALS
+26221,Librarian,2,PROFESSIONALS
+26229,Librarian and related information professional n.e.c.,2,PROFESSIONALS
+26310,Economist,2,PROFESSIONALS
+26321,Sociologist/Anthropologist,2,PROFESSIONALS
+26322,Social science researcher,2,PROFESSIONALS
+26331,Political scientist,2,PROFESSIONALS
+26339,Historian/Political scientist and related social science professional n.e.c.,2,PROFESSIONALS
+26361,Minister of religion,2,PROFESSIONALS
+26369,Religious professional n.e.c.,2,PROFESSIONALS
+26411,Author,2,PROFESSIONALS
+26412,Script writer/editor,2,PROFESSIONALS
+26413,Content writer,2,PROFESSIONALS
+26414,Technical writer,2,PROFESSIONALS
+26415,Book editor,2,PROFESSIONALS
+26419,Author and related writer n.e.c.,2,PROFESSIONALS
+26421,Journalist,2,PROFESSIONALS
+26422,Editor (news/periodicals),2,PROFESSIONALS
+26431,Translator,2,PROFESSIONALS
+26432,Interpreter,2,PROFESSIONALS
+26511,Painter,2,PROFESSIONALS
+26519,Visual artist n.e.c.,2,PROFESSIONALS
+26521,Instrumentalist,2,PROFESSIONALS
+26522,Composer/Orchestrator,2,PROFESSIONALS
+26523,Conductor/Director of orchestra/band/choir,2,PROFESSIONALS
+26524,Singer,2,PROFESSIONALS
+26529,Musician/Composer/Singer n.e.c.,2,PROFESSIONALS
+26530,Dancer/Choreographer,2,PROFESSIONALS
+26541,Producer (stage/film/television/commercial/video/radio),2,PROFESSIONALS
+26542,Director (stage/film/television/commercial/video/radio),2,PROFESSIONALS
+26543,Artistic director (stage/film/television/commercial/video/radio),2,PROFESSIONALS
+26544,Editor (radio/television/video),2,PROFESSIONALS
+26549,Film/Stage and related director/producer n.e.c.,2,PROFESSIONALS
+26550,Actor,2,PROFESSIONALS
+26561,Radio/Television presenter,2,PROFESSIONALS
+26569,Radio/Television presenter and related professional n.e.c.,2,PROFESSIONALS
+26611,Clinical psychologist,2,PROFESSIONALS
+26612,Educational psychologist,2,PROFESSIONALS
+26613,Industrial/Organisational psychologist,2,PROFESSIONALS
+26619,Psychologist n.e.c.,2,PROFESSIONALS
+26621,Social worker (general),2,PROFESSIONALS
+26622,Medical social worker,2,PROFESSIONALS
+26623,Youth work professional,2,PROFESSIONALS
+26629,Social work professional n.e.c.,2,PROFESSIONALS
+26631,Counsellor (rehabilitation),2,PROFESSIONALS
+26632,Counsellor (drugs/alcohol),2,PROFESSIONALS
+26633,Counsellor (family),2,PROFESSIONALS
+26634,School counsellor,2,PROFESSIONALS
+26639,Counselling professional n.e.c.,2,PROFESSIONALS
+26640,Job coach (disability),2,PROFESSIONALS
+31001,Assistant civil/structural engineer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31002,Assistant electrical engineer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31003,Assistant electronics engineer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31004,Assistant mechanical engineer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31005,Assistant chemical engineer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31006,Assistant manufacturing engineer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31009,Assistant engineer n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31111,Chemistry technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31112,Physics technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31119,Chemical/Physical science technician n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31121,Civil engineering technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31122,Building technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31123,Land surveying technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31124,Resident technical officer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31129,Civil engineering technician n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31131,Electrical engineering technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31132,Lift technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31141,Electronics engineering technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31142,Semi-conductor technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31143,Audio/Video equipment technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31144,Instrumentation technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31151,Mechanical engineering technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31152,Air-conditioning/Refrigeration engineering technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31153,Machining/Tooling technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31161,"Chemical engineering technician (excluding petroleum, natural gas and petrochemical)",3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31162,Chemical engineering technician (petroleum/natural gas),3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31163,Chemical engineering technician (petrochemical),3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31164,Food science technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31171,Manufacturing engineering technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31172,Production engineering technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31173,Process engineering technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31174,Automation technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31175,Quality assurance technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31181,Mechanical draughtsperson,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31182,Electrical/Electronics draughtsperson,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31183,Civil/Structural engineering draughtsperson,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31184,Architectural draughtsperson,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31185,Marine draughtsperson,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31189,Draughtsperson n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31211,Aeronautical engineering technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31212,Automotive engineering technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31213,Marine surveyor (ship/nautical),3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31214,Rolling stock engineering technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31291,Mechatronics technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31292,Metallurgical technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31293,Precision optics technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31294,Quantity surveying technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31295,Airport maintenance technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31299,Other physical/engineering science technician n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31310,Power generating plant operator,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31321,Stationary engine operator,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31322,Compressor operator,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31323,Pumping station operator,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31324,Water treatment machine operator (waterworks),3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31325,Refrigeration system operator,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31329,Incinerator/Water treatment plant and related machine operator n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31331,Chemical processing/products plant controller,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31332,Pharmaceutical products machine controller,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31341,Petroleum/Natural gas refining plant operator,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31342,Cylinder filler/tester (compressed/liquefied gases),3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31350,Metal production process controller,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31391,Remote crane operator,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31392,Automated assembly line/Industrial robot operator,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31399,Other process control technician n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31411,Biological technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31412,Clinical research coordinator,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31419,Life science technician (excluding medical) n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31421,Horticultural technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31422,Plant tissue culture technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31423,Farming technician (animal production),3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31510,Marine engineering officer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31521,Ship’s deck navigating officer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31522,Harbour pilot,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31529,Ship’s deck officer/pilot n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31540,Air traffic controller,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31560,Sea traffic controller,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31571,Air transport service supervisor,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31572,Train service supervisor,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31573,Road transport supervisor,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31574,Port/Shipping operations supervisor,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31579,Transport operations supervisor n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31591,Port master/Dockmaster,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31592,Port captain,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31593,Flight operations officer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31594,Air cargo officer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31595,Load control officer (aircraft),3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31596,Train operations officer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31597,Road transport operations officer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31599,Other transport controller and related worker n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31601,Premises/Facilities maintenance officer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31602,Landscape operations officer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31603,Parks officer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31711,Fire and safety inspector,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31719,Building/Fire inspector n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+31720,Safety inspector (vehicles/processes/products),3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+32111,Sonographer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+32112,Medical X-ray technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+32119,Medical imaging/therapeutic equipment technician n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+32120,Medical/Pathology laboratory technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+32130,Pharmacy technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+32141,Prosthetist/Orthotist,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+32142,Prosthetic/Orthotic technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+32143,Dental technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+32200,Enrolled/Assistant nurse (excluding registered nurse),3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+32300,Traditional and complementary medicine associate professional,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+32400,Veterinary technician/assistant,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+32510,Oral health therapist,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+32530,Community health worker,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+32540,Optician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+32551,Massage therapist,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+32559,Physiotherapy technician and related associate professional n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+32571,Environmental inspector (environmental public health),3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+32572,Occupational health and safety inspector,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+32591,Paramedic,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+32599,Other health associate professional n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33120,Credit/Loans officer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33131,Assistant accountant,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33132,Audit associate professional,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33133,Tax associate professional,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33151,Appraiser/Valuer (excluding intangible asset valuer),3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33152,Assessor,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33153,Intangible asset valuer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33160,Financial services back office administrator,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33211,Insurance sales agent/broker,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33219,Insurance representative and related associate professional n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33221,Business development executive,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33222,After sales adviser/Client account service executive,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33223,Marketing and sales executive (food and beverage services),3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33224,Online sales channel executive,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33225,Merchandising/Category executive,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33229,Commercial/Marketing sales executive n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33231,Buyer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33232,Purchasing agent,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33291,Intellectual property broker/transaction specialist,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33299,Other sales and related associate professional n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33311,Clearing/Forwarding agent,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33312,Shipping agent/Boarding officer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33313,Freight inspector,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33320,Exhibition/Conference/Event planner,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33330,Employment agent/Labour contractor,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33340,Real estate agent,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33391,Auctioneer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33392,Advertising salesperson,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33393,International market agent/representative,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33394,Safety/Security consultant,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33399,Other business services agent n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33461,Logistics/Production planner,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33462,Maintenance planner,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33491,Management executive,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33492,Operations officer (administrative),3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33493,Crewing executive (ship),3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33494,Executive secretary,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33499,Other administrative and related associate professional n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33510,Customs/Immigration officer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33551,Police inspector,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33552,Auxiliary police officer supervisor,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33591,Government tax/excise official,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33592,Government social benefits official,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33593,Government licensing official,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33599,Other government associate professional n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33601,Air transport equipment project executive,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33602,Rail transport equipment project executive,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33603,Road transport equipment project executive,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+33609,Transport equipment project executive n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+34110,Legal associate professional,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+34121,Youth work associate,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+34122,Social work associate,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+34123,Volunteer executive,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+34210,Athlete/Sportsperson,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+34221,Sports coach,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+34222,Martial arts instructor,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+34223,Physical fitness instructor,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+34224,Sports official,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+34229,Sports coach/instructor/official and related associate professional n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+34310,Photographer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+34321,Interior designer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+34322,Decorator,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+34323,Visual merchandiser,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+34331,Library officer,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+34332,Gallery/Museum and related technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+34341,Chef (excluding pastry chef),3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+34342,Kitchen operations head/supervisor,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+34343,Pastry chef,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+34391,Tattooist,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+34399,Other artistic/cultural associate professional n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+34401,Disc jockey,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+34409,Creative/Performing arts associate professional n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+35110,Computer systems operator,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+35121,IT infrastructure technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+35122,IT security technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+35123,IT support technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+35129,Computer technician n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+35140,Website administrator/Webmaster,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+35211,Media/Broadcasting operations technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+35212,Video camera operator,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+35213,Television/Motion picture camera operator,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+35214,Radio/Television studio equipment operator,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+35215,Sound engineering technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+35219,Broadcasting technician/Audio-visual operator n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+35220,Telecommunications engineering technician,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+35231,Telecommunications service supervisor,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+35232,Radio-telephone operator (land-based),3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+35239,Telecommunications equipment operator n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+35290,Telecommunications/Broadcasting technician/Audio-visual operator n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+36100,Preschool education teacher,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+36201,Language instructor (extracurriculum),3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+36202,Art and craft instructor (extracurriculum),3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+36203,Information technology trainer (extracurriculum),3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+36204,Music instructor (extracurriculum),3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+36205,Dance instructor (extracurriculum),3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+36206,Speech and drama instructor (extracurriculum),3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+36209,Extracurriculum instructor n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+36910,Private tutor (academic),3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+36991,Relief teacher,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+36999,Other teaching associate professional n.e.c.,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+39910,Non-ordained religious associate professional,3,ASSOCIATE PROFESSIONALS AND TECHNICIANS
+40000,Office supervisor,4,CLERICAL SUPPORT WORKERS
+41101,Office clerk,4,CLERICAL SUPPORT WORKERS
+41102,Personnel/Human resource clerk,4,CLERICAL SUPPORT WORKERS
+41109,General office clerk n.e.c.,4,CLERICAL SUPPORT WORKERS
+41201,Secretary,4,CLERICAL SUPPORT WORKERS
+41202,Verbatim reporter,4,CLERICAL SUPPORT WORKERS
+41310,Typist/Word processing operator,4,CLERICAL SUPPORT WORKERS
+41320,Data entry clerk,4,CLERICAL SUPPORT WORKERS
+42111,Bank teller,4,CLERICAL SUPPORT WORKERS
+42112,Postal service counter clerk,4,CLERICAL SUPPORT WORKERS
+42113,Money changer,4,CLERICAL SUPPORT WORKERS
+42119,Bank teller and related counter clerk n.e.c.,4,CLERICAL SUPPORT WORKERS
+42131,Pawnbroker,4,CLERICAL SUPPORT WORKERS
+42132,Moneylender,4,CLERICAL SUPPORT WORKERS
+42141,Bill collector,4,CLERICAL SUPPORT WORKERS
+42149,Bill collector and related worker n.e.c.,4,CLERICAL SUPPORT WORKERS
+42210,Travel consultant/reservation executive,4,CLERICAL SUPPORT WORKERS
+42230,Telephone operator,4,CLERICAL SUPPORT WORKERS
+42241,Receptionist (general),4,CLERICAL SUPPORT WORKERS
+42242,Hotel receptionist,4,CLERICAL SUPPORT WORKERS
+42243,Medical/Dental receptionist,4,CLERICAL SUPPORT WORKERS
+42244,Passenger services agent,4,CLERICAL SUPPORT WORKERS
+42245,Customer service officer/clerk,4,CLERICAL SUPPORT WORKERS
+42246,Contact centre information clerk,4,CLERICAL SUPPORT WORKERS
+42247,Hotel executive,4,CLERICAL SUPPORT WORKERS
+42249,Receptionist/Customer service/information clerk n.e.c.,4,CLERICAL SUPPORT WORKERS
+42290,Client information clerk n.e.c.,4,CLERICAL SUPPORT WORKERS
+43111,Bookkeeper,4,CLERICAL SUPPORT WORKERS
+43112,Ledger/Accounts clerk,4,CLERICAL SUPPORT WORKERS
+43113,Audit clerk,4,CLERICAL SUPPORT WORKERS
+43114,Payroll/Wages clerk,4,CLERICAL SUPPORT WORKERS
+43115,Billing clerk,4,CLERICAL SUPPORT WORKERS
+43116,Procurement/Purchasing clerk,4,CLERICAL SUPPORT WORKERS
+43119,Accounting/Bookkeeping clerk n.e.c.,4,CLERICAL SUPPORT WORKERS
+43121,Bank operations clerk,4,CLERICAL SUPPORT WORKERS
+43122,Insurance/Underwriting clerk,4,CLERICAL SUPPORT WORKERS
+43123,Securities clerk,4,CLERICAL SUPPORT WORKERS
+43129,Finance/Insurance clerk n.e.c.,4,CLERICAL SUPPORT WORKERS
+43141,Statistical clerk,4,CLERICAL SUPPORT WORKERS
+43142,Enumerator/Market research interviewer,4,CLERICAL SUPPORT WORKERS
+43151,Data processing control clerk,4,CLERICAL SUPPORT WORKERS
+43159,Computer operations clerk n.e.c.,4,CLERICAL SUPPORT WORKERS
+43211,Stock records clerk,4,CLERICAL SUPPORT WORKERS
+43212,Storekeeper,4,CLERICAL SUPPORT WORKERS
+43219,Stock clerk n.e.c.,4,CLERICAL SUPPORT WORKERS
+43221,Material planning clerk,4,CLERICAL SUPPORT WORKERS
+43222,Production planning clerk,4,CLERICAL SUPPORT WORKERS
+43229,Production clerk n.e.c.,4,CLERICAL SUPPORT WORKERS
+43231,Shipping clerk,4,CLERICAL SUPPORT WORKERS
+43232,Land transport clerk,4,CLERICAL SUPPORT WORKERS
+43233,Air transport clerk,4,CLERICAL SUPPORT WORKERS
+43239,Transport clerk n.e.c.,4,CLERICAL SUPPORT WORKERS
+44110,Library clerk,4,CLERICAL SUPPORT WORKERS
+44121,Postal service supervisor,4,CLERICAL SUPPORT WORKERS
+44122,Postman,4,CLERICAL SUPPORT WORKERS
+44123,Process server,4,CLERICAL SUPPORT WORKERS
+44129,Mail carrier/sorting worker n.e.c.,4,CLERICAL SUPPORT WORKERS
+44170,Legal clerk,4,CLERICAL SUPPORT WORKERS
+44191,Proofreading clerk,4,CLERICAL SUPPORT WORKERS
+44199,Other clerical support worker n.e.c.,4,CLERICAL SUPPORT WORKERS
+51111,Chief steward,5,SERVICES AND SALES WORKERS
+51112,Cabin attendant/steward,5,SERVICES AND SALES WORKERS
+51121,Rail station service assistant,5,SERVICES AND SALES WORKERS
+51122,Ticket inspector,5,SERVICES AND SALES WORKERS
+51129,Transport service inspector and related worker n.e.c.,5,SERVICES AND SALES WORKERS
+51131,Tour guide,5,SERVICES AND SALES WORKERS
+51132,Attractions guide,5,SERVICES AND SALES WORKERS
+51201,Cook,5,SERVICES AND SALES WORKERS
+51202,Senior cook,5,SERVICES AND SALES WORKERS
+51311,Captain waiter/Waiter supervisor,5,SERVICES AND SALES WORKERS
+51312,Waiter,5,SERVICES AND SALES WORKERS
+51313,Sommelier,5,SERVICES AND SALES WORKERS
+51321,Bartender/Mixologist,5,SERVICES AND SALES WORKERS
+51322,Barista,5,SERVICES AND SALES WORKERS
+51330,Bar/Lounge hostess,5,SERVICES AND SALES WORKERS
+51390,Waiter/Bartender n.e.c.,5,SERVICES AND SALES WORKERS
+51411,Hair stylist/Hairdresser,5,SERVICES AND SALES WORKERS
+51412,Barber,5,SERVICES AND SALES WORKERS
+51419,Hairdresser/Barber and related worker n.e.c.,5,SERVICES AND SALES WORKERS
+51421,Beautician,5,SERVICES AND SALES WORKERS
+51422,Manicurist,5,SERVICES AND SALES WORKERS
+51423,Makeup artist (stage/film/studio),5,SERVICES AND SALES WORKERS
+51491,Masseur (non-medical),5,SERVICES AND SALES WORKERS
+51492,Slimming consultant,5,SERVICES AND SALES WORKERS
+51499,Other wellness related worker n.e.c.,5,SERVICES AND SALES WORKERS
+51501,Housekeeper (hotel and related establishment),5,SERVICES AND SALES WORKERS
+51502,House steward,5,SERVICES AND SALES WORKERS
+51503,Housekeeping matron,5,SERVICES AND SALES WORKERS
+51504,Head butler (hotel and related establishment),5,SERVICES AND SALES WORKERS
+51505,Butler (hotel and related establishment),5,SERVICES AND SALES WORKERS
+51509,Housekeeper and related worker n.e.c.,5,SERVICES AND SALES WORKERS
+51701,Gaming supervisor,5,SERVICES AND SALES WORKERS
+51702,Bookmaker/Croupier/Casino dealer and related gaming worker,5,SERVICES AND SALES WORKERS
+51910,Astrologer/Fortune-teller and related worker,5,SERVICES AND SALES WORKERS
+51931,Funeral director,5,SERVICES AND SALES WORKERS
+51932,Embalmer,5,SERVICES AND SALES WORKERS
+51941,Pet groomer,5,SERVICES AND SALES WORKERS
+51942,Keeper/Trainer in zoological/bird/aquatic park,5,SERVICES AND SALES WORKERS
+51943,Horse trainer,5,SERVICES AND SALES WORKERS
+51944,Dog trainer,5,SERVICES AND SALES WORKERS
+51949,Pet groomer/Animal keeper/trainer n.e.c.,5,SERVICES AND SALES WORKERS
+51950,Driving instructor/tester,5,SERVICES AND SALES WORKERS
+51991,Social escort,5,SERVICES AND SALES WORKERS
+51999,Other personal services worker n.e.c.,5,SERVICES AND SALES WORKERS
+52110,Hawker/Stall holder (excluding prepared food and drinks),5,SERVICES AND SALES WORKERS
+52120,Hawker/Stall holder (prepared food/drinks),5,SERVICES AND SALES WORKERS
+52130,Newsvendor,5,SERVICES AND SALES WORKERS
+52190,Stall sales worker n.e.c.,5,SERVICES AND SALES WORKERS
+52201,Sales supervisor,5,SERVICES AND SALES WORKERS
+52202,Shop sales assistant,5,SERVICES AND SALES WORKERS
+52301,Cage/Count supervisor,5,SERVICES AND SALES WORKERS
+52302,Cashier (general),5,SERVICES AND SALES WORKERS
+52303,Office cashier,5,SERVICES AND SALES WORKERS
+52309,Cashier/Ticket clerk n.e.c.,5,SERVICES AND SALES WORKERS
+52410,Fashion and related model,5,SERVICES AND SALES WORKERS
+52421,Sales demonstrator,5,SERVICES AND SALES WORKERS
+52422,Salesperson (door-to-door),5,SERVICES AND SALES WORKERS
+52440,Telemarketer,5,SERVICES AND SALES WORKERS
+52491,Petrol station attendant,5,SERVICES AND SALES WORKERS
+52492,Food service counter attendant,5,SERVICES AND SALES WORKERS
+52499,Other sales worker n.e.c.,5,SERVICES AND SALES WORKERS
+53111,Babysitter/Infant care-giver,5,SERVICES AND SALES WORKERS
+53112,Confinement nanny,5,SERVICES AND SALES WORKERS
+53113,Child/After school care centre worker,5,SERVICES AND SALES WORKERS
+53114,Child/Youth residential care assistant,5,SERVICES AND SALES WORKERS
+53120,Teacher aide,5,SERVICES AND SALES WORKERS
+53201,Healthcare assistant,5,SERVICES AND SALES WORKERS
+53202,Nursing aide/assistant,5,SERVICES AND SALES WORKERS
+53203,Dental aide/assistant,5,SERVICES AND SALES WORKERS
+53209,Healthcare assistant and related personal care worker n.e.c.,5,SERVICES AND SALES WORKERS
+54110,Fire-fighting/Rescue officer,5,SERVICES AND SALES WORKERS
+54121,Police officer,5,SERVICES AND SALES WORKERS
+54122,Narcotics officer,5,SERVICES AND SALES WORKERS
+54123,Auxiliary police officer,5,SERVICES AND SALES WORKERS
+54130,Prison officer,5,SERVICES AND SALES WORKERS
+54141,Senior security supervisor,5,SERVICES AND SALES WORKERS
+54142,Security supervisor,5,SERVICES AND SALES WORKERS
+54143,Senior private security officer,5,SERVICES AND SALES WORKERS
+54144,Private security officer,5,SERVICES AND SALES WORKERS
+54150,Lifeguard,5,SERVICES AND SALES WORKERS
+54191,Private investigator,5,SERVICES AND SALES WORKERS
+54192,Industrial investigator,5,SERVICES AND SALES WORKERS
+54193,Insurance investigator,5,SERVICES AND SALES WORKERS
+54194,Park ranger,5,SERVICES AND SALES WORKERS
+54199,Other protective services and related worker n.e.c.,5,SERVICES AND SALES WORKERS
+59000,Services worker n.e.c.,5,SERVICES AND SALES WORKERS
+61110,Vegetable farm worker,6,AGRICULTURAL AND FISHERY WORKERS
+61131,Landscape/Plant nursery supervisor,6,AGRICULTURAL AND FISHERY WORKERS
+61132,Plant nursery worker,6,AGRICULTURAL AND FISHERY WORKERS
+61133,Gardener/Horticultural worker,6,AGRICULTURAL AND FISHERY WORKERS
+61210,Livestock/Dairy farm worker,6,AGRICULTURAL AND FISHERY WORKERS
+61220,Poultry farm worker,6,AGRICULTURAL AND FISHERY WORKERS
+61900,Agricultural worker n.e.c.,6,AGRICULTURAL AND FISHERY WORKERS
+62211,Fish/Prawn farm worker,6,AGRICULTURAL AND FISHERY WORKERS
+62212,Aquarium fish farm worker,6,AGRICULTURAL AND FISHERY WORKERS
+62219,Aquaculture worker n.e.c.,6,AGRICULTURAL AND FISHERY WORKERS
+62220,Coastal waters/Deep sea fishery worker,6,AGRICULTURAL AND FISHERY WORKERS
+71000,Supervisor/General foreman (building and related trades),7,CRAFTSMEN AND RELATED TRADES WORKERS
+71120,Bricklayer/Blocklayer,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71130,Stonemason/Stone cutter/splitter/carver,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71141,Concrete form worker,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71142,Cement finisher/Screeder,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71149,Concrete placer/finisher and related worker n.e.c.,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71151,Carpenter,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71152,Joiner,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71191,Scaffolder,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71192,Cladding/Curtain wall erector,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71199,Other building frame and related trades worker n.e.c.,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71210,Roofer,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71220,Floor/Wall tiler,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71230,Plasterer,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71241,Refrigeration/Air-conditioning equipment insulator,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71242,Boiler/Pipe insulator,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71249,Insulation worker n.e.c.,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71250,Glazier,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71261,Plumber,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71262,Pipe fitter,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71263,Pipe/Drain layer,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71271,Air-conditioning/Refrigeration equipment mechanic,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71272,Air-conditioning/Refrigeration plant installer,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71290,Building finisher and related trades worker n.e.c.,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71311,Building painter,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71312,Wall/Ceiling paperhanger,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71321,Structural steel/Ship painter,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71322,Motor vehicle spray painter,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71323,Spray painter (excluding ships and motor vehicles),7,CRAFTSMEN AND RELATED TRADES WORKERS
+71329,Spray painter/Varnisher and related painter n.e.c.,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71331,Building maintenance worker,7,CRAFTSMEN AND RELATED TRADES WORKERS
+71332,Building structure cleaner and related worker,7,CRAFTSMEN AND RELATED TRADES WORKERS
+72000,Supervisor/General foreman (metal/machinery and related trades),7,CRAFTSMEN AND RELATED TRADES WORKERS
+72110,Metal moulder/coremaker,7,CRAFTSMEN AND RELATED TRADES WORKERS
+72120,Welder/Flame cutter,7,CRAFTSMEN AND RELATED TRADES WORKERS
+72130,Sheet metal worker,7,CRAFTSMEN AND RELATED TRADES WORKERS
+72140,Structural metal preparer/erector,7,CRAFTSMEN AND RELATED TRADES WORKERS
+72150,Rigger/Cable splicer,7,CRAFTSMEN AND RELATED TRADES WORKERS
+72210,Blacksmith/Hammersmith/Forging-press worker,7,CRAFTSMEN AND RELATED TRADES WORKERS
+72221,Tool/Die maker,7,CRAFTSMEN AND RELATED TRADES WORKERS
+72222,Locksmith,7,CRAFTSMEN AND RELATED TRADES WORKERS
+72229,Toolmaker and related worker n.e.c.,7,CRAFTSMEN AND RELATED TRADES WORKERS
+72240,Metal polisher/Wheel grinder/Tool sharpener,7,CRAFTSMEN AND RELATED TRADES WORKERS
+72310,Automotive mechanic,7,CRAFTSMEN AND RELATED TRADES WORKERS
+72320,Aircraft engine mechanic/repairer,7,CRAFTSMEN AND RELATED TRADES WORKERS
+72330,Rolling stock mechanic,7,CRAFTSMEN AND RELATED TRADES WORKERS
+72340,Bicycle and related repairer,7,CRAFTSMEN AND RELATED TRADES WORKERS
+72350,Marine engine mechanic/repairer,7,CRAFTSMEN AND RELATED TRADES WORKERS
+72390,Machinery mechanic/fitter/repairer n.e.c.,7,CRAFTSMEN AND RELATED TRADES WORKERS
+73000,Supervisor/General foreman (precision/handicraft/printing and related trades),7,CRAFTSMEN AND RELATED TRADES WORKERS
+73111,Watch/Clock assembler/repairer,7,CRAFTSMEN AND RELATED TRADES WORKERS
+73112,Optical instrument maker/repairer,7,CRAFTSMEN AND RELATED TRADES WORKERS
+73113,Medical device assembler/repairer,7,CRAFTSMEN AND RELATED TRADES WORKERS
+73119,Precision instrument maker/repairer n.e.c.,7,CRAFTSMEN AND RELATED TRADES WORKERS
+73120,Musical instrument maker/repairer/tuner,7,CRAFTSMEN AND RELATED TRADES WORKERS
+73130,Jewellery/Precious metal worker,7,CRAFTSMEN AND RELATED TRADES WORKERS
+73140,Potter and related worker,7,CRAFTSMEN AND RELATED TRADES WORKERS
+73150,Glass maker/cutter/grinder/finisher,7,CRAFTSMEN AND RELATED TRADES WORKERS
+73160,Sign writer/Decorative painter/Engraver/Etcher,7,CRAFTSMEN AND RELATED TRADES WORKERS
+73210,Pre-press trades worker,7,CRAFTSMEN AND RELATED TRADES WORKERS
+73220,Printer,7,CRAFTSMEN AND RELATED TRADES WORKERS
+74001,Lift supervisor,7,CRAFTSMEN AND RELATED TRADES WORKERS
+74002,"Supervisor/General foreman (electrical/electronic trades, excluding lift)",7,CRAFTSMEN AND RELATED TRADES WORKERS
+74110,Electrician,7,CRAFTSMEN AND RELATED TRADES WORKERS
+74121,Electrical fitter,7,CRAFTSMEN AND RELATED TRADES WORKERS
+74122,Electrical lift/escalator and related equipment fitter,7,CRAFTSMEN AND RELATED TRADES WORKERS
+74123,Electrical household appliance repairer,7,CRAFTSMEN AND RELATED TRADES WORKERS
+74131,Electrical line installer (overhead),7,CRAFTSMEN AND RELATED TRADES WORKERS
+74132,Electric cable jointer,7,CRAFTSMEN AND RELATED TRADES WORKERS
+74133,Underground electrical line installer/repairer,7,CRAFTSMEN AND RELATED TRADES WORKERS
+74210,Electronics fitter (excluding broadcasting and communication equipment),7,CRAFTSMEN AND RELATED TRADES WORKERS
+74221,Consumer audio/video equipment/radar broadcasting/transmitting equipment fitter/mechanic,7,CRAFTSMEN AND RELATED TRADES WORKERS
+74222,Computer and related electronic equipment mechanic,7,CRAFTSMEN AND RELATED TRADES WORKERS
+74223,Telecommunications lineman,7,CRAFTSMEN AND RELATED TRADES WORKERS
+74224,Telecommunications installer/servicer,7,CRAFTSMEN AND RELATED TRADES WORKERS
+75000,Supervisor/General foreman (food processing/woodworking/garment/leather and related trades),7,CRAFTSMEN AND RELATED TRADES WORKERS
+75110,Butcher/Fishmonger and related food preparer,7,CRAFTSMEN AND RELATED TRADES WORKERS
+75121,Baker,7,CRAFTSMEN AND RELATED TRADES WORKERS
+75122,Pastry/Confectionery maker,7,CRAFTSMEN AND RELATED TRADES WORKERS
+75150,Food and beverage taster/grader,7,CRAFTSMEN AND RELATED TRADES WORKERS
+75190,Food processing and related trades worker n.e.c.,7,CRAFTSMEN AND RELATED TRADES WORKERS
+75210,Wood treater,7,CRAFTSMEN AND RELATED TRADES WORKERS
+75220,Cabinet maker/Wood related trades worker,7,CRAFTSMEN AND RELATED TRADES WORKERS
+75290,Furniture maker and related trades worker n.e.c.,7,CRAFTSMEN AND RELATED TRADES WORKERS
+75310,Tailor/Dressmaker,7,CRAFTSMEN AND RELATED TRADES WORKERS
+75320,Garment and related pattern-maker/cutter,7,CRAFTSMEN AND RELATED TRADES WORKERS
+75340,Upholsterer and related worker,7,CRAFTSMEN AND RELATED TRADES WORKERS
+75361,Shoemaker/Cobbler,7,CRAFTSMEN AND RELATED TRADES WORKERS
+75362,Leather goods maker/assembler,7,CRAFTSMEN AND RELATED TRADES WORKERS
+75369,Shoemaker and related worker n.e.c.,7,CRAFTSMEN AND RELATED TRADES WORKERS
+75390,Garment/Leather and related trades worker n.e.c.,7,CRAFTSMEN AND RELATED TRADES WORKERS
+75410,Underwater diver,7,CRAFTSMEN AND RELATED TRADES WORKERS
+75440,Fumigator and related pest/weed controller,7,CRAFTSMEN AND RELATED TRADES WORKERS
+75490,Craft and related worker n.e.c.,7,CRAFTSMEN AND RELATED TRADES WORKERS
+81000,Stationary plant/machine supervisor/general foreman,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81130,Well driller/borer and related mining worker,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81140,Cement and related mineral products machine operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81210,Metal melter/caster/rolling mill operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81220,Metal heat treating plant operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81230,Metal drawer/extruder,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81240,Metal finishing/plating/coating machine operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81251,Metalworking machine setter-operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81252,Precision grinding machine setter-operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81259,Machine-tool setter-operator n.e.c.,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81311,Chemical processing/products plant/machine operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81312,Pharmaceutical products machine operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81320,Photographic products machine operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81390,Chemical processing/chemical/photographic products plant/machine operator n.e.c.,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81410,Rubber products machine operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81420,Plastic products machine operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81430,Paper/Paperboard products machine operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81501,Sewing machine operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81502,"Laundry/Dry cleaning worker (machine, non-household)",8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81509,Textile/Fur/Leather products machine operator n.e.c.,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81601,Meat/Fish products machine operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81602,Dairy/Confectionery products machine operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81603,Baked/Cereal products machine operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81604,Brewer/Wine and related beverages machine operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81609,Food and related products machine operator n.e.c.,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81700,Wood processing/Papermaking plant operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81810,Glass/Ceramics plant operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81821,Boiler fireman,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81822,Ship’s oiler/greaser,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81829,Steam engine/boiler operator n.e.c.,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81830,Packing/Bottling/Labelling machine operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81841,Printing machine operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81842,Bookbinding machine operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81849,Printing/Binding and related machine operator n.e.c.,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+81890,Stationary plant/machine operator n.e.c.,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+82000,Supervisor/General foreman of assemblers/quality checkers,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+82110,Mechanical equipment/component assembler,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+82121,Electrical equipment/component assembler,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+82122,Electronic equipment/component assembler,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+82123,Battery assembler,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+82131,Electrical/Electronic products quality checker/tester,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+82132,Mechanical products quality checker/tester,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+82139,Quality checker/tester n.e.c.,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+82190,Assembler n.e.c.,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83000,Mobile machinery supervisor/general foreman,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83110,Train operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83120,Railway braker and related worker,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83211,Motorcycle delivery worker,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83212,Delivery worker using motorised personal mobility aids/devices,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83221,Taxi driver,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83222,Chauffeur,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83223,Van driver,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83224,Ambulance driver,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83225,Parking valet,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83226,Private-hire car driver,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83229,Car/Taxi/Van/Light goods vehicle driver n.e.c.,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83311,Bus driver,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83312,Tram driver,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83321,Lorry driver,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83322,Trailer-truck driver,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83323,Concrete mix truck driver,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83324,Waste truck driver,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83329,Heavy truck/Lorry driver n.e.c.,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83421,Excavating/Trench digging machine operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83422,Dredge operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83423,Pile driver/drilling machine operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83424,Tunnelling machine operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83429,Earth moving and related machinery operator n.e.c.,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83431,Crane/Hoist operator (excluding port),8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83432,Crane operator (on-site),8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83439,Crane/Hoist and related equipment operator n.e.c.,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83441,Fork lift truck operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83449,Lifting truck operator n.e.c.,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83491,Motorised sweeper operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83492,Airport mobile equipment operator,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83499,Other mobile machinery operator n.e.c.,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83501,Port limit helmsman/steersman/engine driver/tugmaster,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83502,Deckhand,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+83509,Ship’s deck crew and related worker n.e.c.,8,PLANT AND MACHINE OPERATORS AND ASSEMBLERS
+91000,Cleaning supervisor,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+91121,Housekeeping/Linen room attendant,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+91122,Hotel cleaner,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+91129,Cleaner/Helper in hotel and related establishment n.e.c.,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+91131,Office/Commercial/Industrial establishment indoor cleaner,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+91132,Office/Commercial/Industrial establishment outdoor cleaner,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+91133,Office/Commercial/Industrial establishment multi-skilled cleaner cum machine operator,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+91151,Food and beverage establishment general cleaner,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+91152,Table-top cleaner,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+91153,Dishwasher,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+91154,Food and beverage establishment multi-skilled cleaner cum machine operator,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+91161,Residential/Open areas general cleaner,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+91162,Residential/Open areas multi-skilled cleaner cum machine operator,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+91210,Hand launderer/presser (non-household),9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+91220,Motor vehicle cleaner/polisher,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+91230,Window cleaner,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+91291,Ship/Ship tank cleaner,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+91292,Aircraft cleaner,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+91293,Railway carriage cleaner,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+91299,Other cleaning worker n.e.c.,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+91300,Domestic helper/cleaner,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+92141,Tree worker/technician,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+92142,Landscape worker,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+92149,Park/Garden/Landscape maintenance worker n.e.c.,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+92190,Agricultural/Fishery and related labourer n.e.c.,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+93100,Civil engineering/Building construction labourer,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+93201,Hand packer,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+93209,Manufacturing labourer and related worker n.e.c.,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+93310,Hand/Pedal vehicle driver,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+93331,Stevedore,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+93332,Railway/Road vehicle loader,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+93333,Aircraft loader,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+93334,Warehouse worker,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+93335,Vehicle attendant,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+93336,Mover,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+93337,Lashing worker,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+93339,Material/Freight handling worker n.e.c.,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+94101,Kitchen assistant,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+94102,Food/Drink stall assistant,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+94103,Fast food preparer,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+94104,"Tea server/steward (excluding bartender, barista and food/drink stall assistant)",9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+96000,Waste collection/recycling/material recovery supervisor,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+96101,General waste collection/recycling/material recovery worker,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+96102,Waste recycling sorter,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+96109,Waste collection/recycling/material recovery worker n.e.c.,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+96211,Bell captain,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+96212,Bellboy/Hotel porter,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+96213,Porter (excluding hotel),9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+96251,Office/Library attendant,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+96252,Laboratory attendant,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+96253,Hospital/Clinic attendant,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+96254,Car park attendant,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+96255,Sports/Recreational attendant,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+96256,Bus attendant,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+96257,Restroom attendant,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+96259,Attendant n.e.c.,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+96261,Building caretaker,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+96262,Doorman,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+96269,Building caretaker and related worker n.e.c.,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+96271,Chief concierge (hotel),9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+96272,Concierge (hotel),9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+96291,Leaflet/Newspaper distributor/deliverer,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+96292,Meter reader/Vending-machine collector,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+96293,Odd job person,9,"CLEANERS, LABOURERS AND RELATED WORKERS"
+96299,Other elementary worker n.e.c.,9,"CLEANERS, LABOURERS AND RELATED WORKERS"

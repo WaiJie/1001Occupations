@@ -1,0 +1,22 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+.DS_Store
+
+# Standalone scripts and source data (one-time use, not deployed)
+compute_*.py
+check_job_data.py
+embed_plot.py
+flatten_ssoc_code.py
+ssoc2024-detailed-definitions.xlsx
+streamlit_job_debugger.py
+split_embeddings.py
+final_jobsv2.jsonl
+job_embeddings.npy
+job_metadata.csv
+data/job_metadata.csv
+data/occupation_skills_tools.csv
+data/occupation_stats.csv
+split_metadata.py
