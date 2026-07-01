@@ -16,7 +16,4 @@ split_embeddings.py
 final_jobsv2.jsonl
 job_embeddings.npy
 job_metadata.csv
-data/job_metadata.csv
-data/occupation_skills_tools.csv
-data/occupation_stats.csv
 split_metadata.py
