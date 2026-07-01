@@ -125,16 +125,18 @@ def load_model():
     try:
         from sentence_transformers import SentenceTransformer
         import torch
-        print(f"[load_model] torch available: {torch.cuda.is_available()}", flush=True)
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        print(f"[load_model] Device: {device}", flush=True)
+        cuda_avail = torch.cuda.is_available()
+        print(f"[load_model] torch available: {cuda_avail}", flush=True)
+        device = torch.device("cuda" if cuda_avail else "cpu")
+        dtype = torch.float16 if cuda_avail else torch.float32
+        print(f"[load_model] Device: {device}, dtype: {dtype}", flush=True)
         print("[load_model] Loading SentenceTransformer...", flush=True)
         model = SentenceTransformer(
             "jinaai/jina-embeddings-v5-text-nano",
             trust_remote_code=True,
             revision="refs/pr/11",
             device=device,
-            model_kwargs={"torch_dtype": torch.bfloat16, "default_task": "text-matching"},
+            model_kwargs={"torch_dtype": dtype, "default_task": "text-matching"},
         )
         print("[load_model] Done", flush=True)
         return model
