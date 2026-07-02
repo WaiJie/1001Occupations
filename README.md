@@ -4,6 +4,8 @@
 
 The 1001 Occupations app is an interactive career exploration and job matching platform built on Singapore's Standard Occupational Classification (SSOC) 2024 framework. It enables users to discover new career paths, evaluate job opportunities, and find matches based on their professional profile and resume.
 
+[Try it here] (https://1001occupations.streamlit.app/)
+
 ## What It Does
 
 - **Occupation Discovery**: Browse through all 1001 Singapore occupations and explore their detailed responsibilities, required skills, salary ranges, and career contexts
