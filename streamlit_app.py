@@ -115,6 +115,27 @@ job_meta = load_job_metadata()
 occ_skills_tools_df = load_occupation_skills_tools()
 occ_stats_df = load_occupation_stats()
 
+def global_top_skills(n=50, major_filter="All"):
+    data = occ_skills_tools_df
+    major_map = {
+        "All": lambda x: True,
+        "PMET": lambda x: x in (1, 2, 3),
+        "Non-PMET": lambda x: x not in (1, 2, 3),
+        "1 - Managers": lambda x: x == 1,
+        "2 - Professionals": lambda x: x == 2,
+        "3 - Associate Professionals": lambda x: x == 3,
+    }
+    fn = major_map.get(major_filter, lambda x: True)
+    occ_codes = emb_meta[emb_meta["major_code"].apply(fn)]["code"]
+    data = data[data["occ_code"].isin(occ_codes)]
+    return (
+        data.groupby("main_term")["total_count"]
+        .sum()
+        .sort_values(ascending=False)
+        .head(n)
+        .reset_index()
+    )
+
 @st.cache_resource
 def get_api_client():
     token = st.secrets["HF_TOKEN"]
@@ -813,6 +834,20 @@ else:
                          "Median Exp (yr)": st.column_config.NumberColumn(format="%.1f"),
                          "Job Posts": st.column_config.NumberColumn(format="%d"),
                      })
+
+        st.divider()
+        st.subheader(f"Top 50 Skills — {pmet_filter}")
+        gtop = global_top_skills(50, major_filter=pmet_filter)
+        gtop["rank"] = range(1, len(gtop) + 1)
+        st.dataframe(
+            gtop[["rank", "main_term", "total_count"]],
+            column_config={
+                "rank": "Rank",
+                "main_term": "Skill",
+                "total_count": st.column_config.NumberColumn("Job Posts", format="%d"),
+            },
+            hide_index=True, width="stretch",
+        )
 
     elif st.session_state.nav_tab == "Find Jobs":
         st.markdown("Recommendations based on your profile settings under the **My Profile** tab.")
