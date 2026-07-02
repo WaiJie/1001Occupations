@@ -1036,6 +1036,27 @@ Paste a job description below and we'll score it based on your **resume**, **tar
                                 st.session_state.byo_jobs = [j for j in st.session_state.byo_jobs if id(j) != id(job)]
                                 st.rerun()
 
+                        state_key = f"byo_explain_{id(job)}"
+                        gap, btn_explain = st.columns([6, 1])
+                        with gap:
+                            st.markdown("&nbsp;")
+                        with btn_explain:
+                            if st.button("✨ Explain", key=state_key + "_btn", use_container_width=True):
+                                with st.spinner("Analysing..."):
+                                    resume = st.session_state.profile["resume"].strip()[:2000]
+                                    desc = job["description"][:2000]
+                                    prompt = f"In a few sentences, explain why this job is a good match. State which skills align and note any obvious gaps.\n\nResume:\n{resume}\n\nJob Description:\n{desc}"
+                                    explanation, used_fallback = explain_match(prompt)
+                                    if used_fallback:
+                                        st.toast("External LLM limit reached. Using fallback model.", icon="⚠️")
+                                    if isinstance(explanation, dict):
+                                        explanation = explanation.get("response", str(explanation))
+                                    st.session_state[state_key] = str(explanation)
+                                st.rerun()
+                        if st.session_state.get(state_key):
+                            with st.expander("Explanation", expanded=False):
+                                st.write(st.session_state[state_key])
+
                         with st.expander("Evidence from job description", expanded=False):
                             for sent, _ in job["snippets"]:
                                 st.markdown(f"- {sent}")
