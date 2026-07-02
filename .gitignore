@@ -19,4 +19,17 @@ job_embeddings.npy
 job_metadata.csv
 split_metadata.py
 
+# Development files
+.env
+.DS_Store
 test_gradio_api.py
+*
+*.pyc
+*.pyo
+
+# Avoid tracking temporary files
+*~
+.idea/
+.vscode/
+*.log
+*.tmp
