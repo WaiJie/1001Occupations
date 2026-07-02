@@ -1,4 +1,4 @@
-import os, warnings
+import os, warnings, json, re
 os.environ["HF_HUB_DISABLE_SYMLINK_WARNING"] = "1"
 os.environ["HF_HUB_DISABLE_PROGRESS_BARS"] = "1"
 os.environ["TRANSFORMERS_VERBOSITY"] = "error"
@@ -6,12 +6,12 @@ os.environ["SENTENCE_TRANSFORMERS_VERBOSITY"] = "error"
 warnings.filterwarnings("ignore", category=FutureWarning, module="transformers")
 warnings.filterwarnings("ignore", message=".*use_return_dict.*")
 
-import json
 import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
+from gradio_client import Client
 
 st.set_page_config(page_title="1001 Occupations", page_icon="💼", layout="wide")
 st.markdown("""
@@ -36,15 +36,27 @@ div[data-testid="column"] > div[data-testid="stVerticalBlock"] > div[data-testid
     flex: 1 !important;
     padding: 0.5rem 1rem 1rem 1rem;
 }
+div[role="radiogroup"] {
+    background: #e8f0fe !important;
+    border-radius: 10px !important;
+    padding: 4px !important;
+}
+div[role="radiogroup"] label {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    padding: 0.4rem 1rem !important;
+    border-radius: 8px !important;
+}
+div[role="radiogroup"] label[aria-checked="true"] {
+    background: #1a73e8 !important;
+    color: white !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
 DATA_PATH = "data/ssoc2024_flat_wide.xlsx"
 COORDS_PATH = "data/ssoc_umap_coords.csv"
-EMB_PATH = "data/ssoc_embeddings.npy"
 META_PATH = "data/ssoc_metadata.csv"
-JOB_EMB_PATH1 = "data/job_embeddings_part1.npy"
-JOB_EMB_PATH2 = "data/job_embeddings_part2.npy"
 JOB_META_PATH1 = "data/job_metadata_part1.csv"
 JOB_META_PATH2 = "data/job_metadata_part2.csv"
 OCC_SKILLS_TOOLS_PATH = "data/occupation_skills_tools.csv"
@@ -81,26 +93,12 @@ def load_coords():
     return pd.read_csv(COORDS_PATH)
 
 @st.cache_data
-def load_embeddings():
-    emb = np.load(EMB_PATH)
-    meta = pd.read_csv(META_PATH)
-    norms = np.linalg.norm(emb, axis=1, keepdims=True)
-    emb_norm = emb / norms
-    return emb_norm, meta
+def load_occupation_metadata():
+    return pd.read_csv(META_PATH)
 
 @st.cache_data
-def load_job_embeddings():
-    emb = np.concatenate([np.load(JOB_EMB_PATH1), np.load(JOB_EMB_PATH2)])
-    meta = pd.concat([pd.read_csv(JOB_META_PATH1), pd.read_csv(JOB_META_PATH2)], ignore_index=True)
-    norms = np.linalg.norm(emb, axis=1, keepdims=True)
-    emb_norm = emb / norms
-    return emb_norm, meta
-
-df = load_occupations()
-umap_df = load_coords()
-emb_norm, emb_meta = load_embeddings()
-job_emb_norm, job_meta = load_job_embeddings()
-code_to_idx = {row["code"]: i for i, row in emb_meta.iterrows()}
+def load_job_metadata():
+    return pd.concat([pd.read_csv(JOB_META_PATH1), pd.read_csv(JOB_META_PATH2)], ignore_index=True)
 
 @st.cache_data
 def load_occupation_skills_tools():
@@ -110,35 +108,17 @@ def load_occupation_skills_tools():
 def load_occupation_stats():
     return pd.read_csv("data/occupation_stats.csv")
 
+df = load_occupations()
+umap_df = load_coords()
+emb_meta = load_occupation_metadata()
+job_meta = load_job_metadata()
 occ_skills_tools_df = load_occupation_skills_tools()
 occ_stats_df = load_occupation_stats()
 
 @st.cache_resource
-def get_sim_matrix():
-    return emb_norm @ emb_norm.T
-
-sim_matrix = get_sim_matrix()
-
-@st.cache_resource
-def load_model():
-    print("[load_model] Starting...", flush=True)
-    from sentence_transformers import SentenceTransformer
-    import torch
-    cuda_avail = torch.cuda.is_available()
-    print(f"[load_model] torch available: {cuda_avail}", flush=True)
-    device = torch.device("cuda" if cuda_avail else "cpu")
-    dtype = torch.float16 if cuda_avail else torch.float32
-    print(f"[load_model] Device: {device}, dtype: {dtype}", flush=True)
-    print("[load_model] Loading SentenceTransformer...", flush=True)
-    model = SentenceTransformer(
-        "jinaai/jina-embeddings-v5-text-nano",
-        trust_remote_code=True,
-        revision="refs/pr/11",
-        device=device,
-        model_kwargs={"torch_dtype": dtype, "default_task": "text-matching"},
-    )
-    print("[load_model] Done", flush=True)
-    return model
+def get_api_client():
+    token = st.secrets["HF_TOKEN"]
+    return Client("Wjchua/1001Occupations", token=token)
 
 # ── Session state ────────────────────────────────────────
 if "page" not in st.session_state:
@@ -166,11 +146,17 @@ if "profile" not in st.session_state:
         "preferred_title": None,
         "career_direction": 33,
         "max_exp": 20,
+        "sal_min": 0,
+        "sal_max": 50000,
     }
 if "career_dir" not in st.session_state:
     st.session_state.career_dir = st.session_state.profile["career_direction"]
 if "max_exp_years" not in st.session_state:
     st.session_state.max_exp_years = st.session_state.profile["max_exp"]
+if "sal_min_val" not in st.session_state:
+    st.session_state.sal_min_val = st.session_state.profile["sal_min"]
+if "sal_max_val" not in st.session_state:
+    st.session_state.sal_max_val = st.session_state.profile["sal_max"]
 if "jobs_dirty" not in st.session_state:
     st.session_state.jobs_dirty = True
 if "prev_tab" not in st.session_state:
@@ -181,6 +167,7 @@ if "byo_jobs" not in st.session_state:
     st.session_state.byo_jobs = []
 if "byo_page" not in st.session_state:
     st.session_state.byo_page = 1
+
 
 params = st.query_params
 if "occupation" in params:
@@ -203,24 +190,71 @@ def parse_csv_list(val):
     reader = csv.reader(StringIO(str(val)), skipinitialspace=True)
     return [s.strip('" ') for s in next(reader, []) if s.strip()]
 
+def api_semantic_search(text, dataset="occupations", top_k=5, occupation_code=None, resume_weight=1.0):
+    client = get_api_client()
+    return client.predict(
+        text, dataset, top_k,
+        occupation_code if occupation_code is not None else None,
+        resume_weight,
+        api_name="/semantic_search",
+    )
+
+def api_profile_match(resume_text, job_description, occupation_code=None, resume_weight=1.0):
+    client = get_api_client()
+    return client.predict(
+        resume_text, job_description,
+        occupation_code if occupation_code is not None else None,
+        resume_weight,
+        api_name="/profile_match",
+    )
+
+def api_retrieve_evidence(profile_vec, combined_desc, top_k=3):
+    client = get_api_client()
+    return client.predict(
+        profile_vec, combined_desc, float(top_k),
+        api_name="/retrieve_evidence",
+    )
+
+def api_call_external_llm(message, system_prompt="You are a helpful career assistant.", temperature=0.2, max_new_tokens=512):
+    client = get_api_client()
+    return client.predict(
+        message, system_prompt, temperature, max_new_tokens,
+        api_name="/call_external_llm",
+    )
+
+def api_call_llm(message, system_prompt="You are a helpful career assistant.", temperature=0.2, max_new_tokens=512):
+    client = get_api_client()
+    return client.predict(
+        message, system_prompt, temperature, max_new_tokens,
+        api_name="/call_llm",
+    )
+
+def explain_match(prompt):
+    try:
+        return api_call_external_llm(prompt), False
+    except Exception:
+        try:
+            return api_call_llm(prompt), True
+        except Exception:
+            return None, False
+
 def top_n_similar(code, n=5):
-    idx = code_to_idx.get(code)
-    if idx is None:
+    row = df[df["occupation_code"] == code]
+    if row.empty:
         return []
-    vec = emb_norm[idx]
-    sims = emb_norm @ vec
-    top = np.argsort(sims)[-(n + 1):][::-1]
-    results = []
-    for i in top:
-        if i == idx:
+    title_text = row.iloc[0]["occupation_title"]
+    results = api_semantic_search(title_text, "occupations", n + 1, occupation_code=code)
+    similar = []
+    for r in results:
+        if int(r["code"]) == code:
             continue
-        results.append((emb_meta.iloc[i]["code"], emb_meta.iloc[i]["title"], sims[i]))
-        if len(results) == n:
+        similar.append((int(r["code"]), r["title"], r["profile_score"]))
+        if len(similar) == n:
             break
-    return results
+    return similar
 
 def show_similarity_cards(code):
-    st.subheader("Top 5 Related Occupations")
+    st.markdown(f"##### Top 5 Related Occupations {SOURCE_CALC}", unsafe_allow_html=True)
     st.markdown("Occupations with similar responsibilities and characteristics.")
     similar = top_n_similar(code, n=5)
     if similar:
@@ -240,22 +274,17 @@ def show_similarity_cards(code):
         st.info("No similar occupations found.")
 
 def show_semantic_neighbourhood(code, title):
-    st.subheader("Semantic Neighbourhood")
+    st.markdown(f"##### Semantic Neighbourhood {SOURCE_CALC}", unsafe_allow_html=True)
     st.markdown("Visualises functional similarity between occupations based on their tasks and responsibilities. Nearby occupations often perform similar work, while connections may span across the map when occupations share similar functions despite belonging to different industries.")
-    idx = code_to_idx[code]
-    sims = sim_matrix[idx]
-    sorted_indices = np.argsort(sims)[::-1][1:]
-    sorted_sims = sims[sorted_indices]
-    gap_threshold = 0.03
-    max_candidates = 40
-    cut = max_candidates
-    for i in range(min(max_candidates, len(sorted_sims) - 1)):
-        if sorted_sims[i] - sorted_sims[i + 1] > gap_threshold:
-            cut = i + 1
-            break
-    n_neighbours = max(5, cut)
-    neighbour_indices = sorted_indices[:n_neighbours]
-    neighbour_codes = set(emb_meta.iloc[neighbour_indices]["code"].values)
+    n_neighbours = 30
+    row = df[df["occupation_code"] == code]
+    query = row.iloc[0]["occupation_title"] if not row.empty else title
+    results = api_semantic_search(query, "occupations", n_neighbours + 1, occupation_code=code)
+    neighbour_codes = set()
+    for r in results:
+        c = int(r["code"])
+        if c != code:
+            neighbour_codes.add(c)
     neighbours = umap_df[umap_df["code"].isin(neighbour_codes)]
     others = umap_df[~umap_df["code"].isin(neighbour_codes)]
     row_pt = umap_df[umap_df["code"] == code].iloc[0]
@@ -318,6 +347,10 @@ def show_semantic_neighbourhood(code, title):
         except (KeyError, IndexError, TypeError):
             pass
 
+SOURCE_SSOC = "<span style='font-size:0.7rem;color:#e67e22;border:1px solid #e67e22;border-radius:3px;padding:0 6px;margin-left:8px;white-space:nowrap'>SSOC 2024</span>"
+SOURCE_JOBS = "<span style='font-size:0.7rem;color:#1a73e8;border:1px solid #1a73e8;border-radius:3px;padding:0 6px;margin-left:8px;white-space:nowrap'>Job Posts</span>"
+SOURCE_CALC = "<span style='font-size:0.7rem;color:#888;border:1px solid #888;border-radius:3px;padding:0 6px;margin-left:8px;white-space:nowrap'>Calculated</span>"
+
 def show_occupation_page(row):
     if st.button("⬅ Back"):
         del st.query_params["occupation"]
@@ -329,8 +362,8 @@ def show_occupation_page(row):
     titles = [proper_case(row[f"{l}_group_title"]) for l in ["major", "sub_major", "minor", "unit"]]
     titles.append(proper_case(row["occupation_title"]))
     st.markdown(f"SSOC: {' → '.join(titles)}")
-    occ_codes, _, _ = compute_job_occupation_matches()
-    job_post_count = int(np.sum(occ_codes == code))
+    stat = occ_stats_df[occ_stats_df["occ_code"] == code]
+    job_post_count = int(stat["job_post_count"].values[0]) if not stat.empty else 0
 
     col_title, col_count = st.columns([3, 1])
     with col_title:
@@ -341,6 +374,7 @@ def show_occupation_page(row):
 
     occ_stat = occ_stats_df[occ_stats_df["occ_code"] == code]
     if not occ_stat.empty:
+        st.markdown(f"<div style='display:flex;align-items:center;gap:4px;margin-bottom:4px'><span style='font-weight:600'>Salary & Experience</span>{SOURCE_JOBS}</div>", unsafe_allow_html=True)
         s = occ_stat.iloc[0]
         mc1, mc2, mc3, mc4, mc5 = st.columns(5)
         with mc1:
@@ -362,10 +396,10 @@ def show_occupation_page(row):
             st.session_state.profile["preferred_title"] = title
             st.session_state.jobs_dirty = True
             st.rerun()
-    st.subheader("Overview")
+    st.markdown(f"##### Overview {SOURCE_SSOC}", unsafe_allow_html=True)
     st.write(row["detailed_definitions"])
     st.divider()
-    st.subheader("What They Do")
+    st.markdown(f"##### What They Do {SOURCE_SSOC}", unsafe_allow_html=True)
     tasks = parse_csv_list(row["tasks"])
     if tasks:
         for t in tasks:
@@ -375,7 +409,7 @@ def show_occupation_page(row):
     st.divider()
     occ_rows = occ_skills_tools_df[occ_skills_tools_df["occ_code"] == code].sort_values("rank")
     if not occ_rows.empty:
-        st.subheader("Skills & Tools in Demand (from job posts)")
+        st.markdown(f"##### Skills & Tools in Demand (from job posts) {SOURCE_JOBS}", unsafe_allow_html=True)
         col_top, col_var = st.columns([1, 1])
         with col_top:
             top_n = st.number_input("Show top", min_value=1, max_value=len(occ_rows), value=min(20, len(occ_rows)), key=f"topn_{code}")
@@ -391,19 +425,17 @@ def show_occupation_page(row):
                         if vt != r["main_term"]:
                             st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;· {vt} ({vc})")
         st.divider()
-    occ_codes_all, _, best_sim_all = compute_job_occupation_matches()
-    job_mask = occ_codes_all == code
-    if job_mask.sum() > 0:
-        job_indices = np.where(job_mask)[0]
-        top5_idx = job_indices[np.argsort(best_sim_all[job_indices])[::-1][:5]]
-        st.subheader("Top Representative Job Posts")
+
+    row_text = row["occupation_title"] + " " + (row.get("tasks", "") or "")
+    top_jobs = api_semantic_search(row_text, "jobs", 5)
+    if top_jobs:
+        st.markdown(f"##### Top Representative Job Posts {SOURCE_JOBS}", unsafe_allow_html=True)
         st.markdown("Highest-similarity job postings matched to this occupation.")
-        for rank, ji in enumerate(top5_idx, 1):
-            jr = job_meta.iloc[ji]
-            sim = best_sim_all[ji]
-            preview = jr["preview"] if pd.notna(jr["preview"]) else ""
-            company = jr["company"] if pd.notna(jr["company"]) else ""
-            url = jr["url"] if pd.notna(jr["url"]) else ""
+        for rank, jr in enumerate(top_jobs, 1):
+            preview = str(jr.get("preview", "") or "")
+            company = str(jr.get("company", "") or "")
+            url = str(jr.get("url", "") or "")
+            sim = jr.get("profile_score", 0)
             with st.container(border=True):
                 st.markdown(f"**#{rank}** &nbsp; {jr['title']}  —  Similarity: **{sim:.1%}**")
                 if company:
@@ -412,14 +444,14 @@ def show_occupation_page(row):
                     st.caption(preview[:200] + ("..." if len(preview) > 200 else ""))
                 if url:
                     st.markdown(f"[View original posting]({url})")
-        st.divider()
+    st.divider()
 
     notes = row["notes"]
     if not pd.isna(notes) and notes.strip("—–- ") not in ("", "—", "–", "-", "nan"):
-        st.subheader("Notes")
+        st.markdown(f"##### Notes {SOURCE_SSOC}", unsafe_allow_html=True)
         st.write(notes)
         st.divider()
-    st.subheader("Common Job Titles")
+    st.markdown(f"##### Common Job Titles {SOURCE_SSOC}", unsafe_allow_html=True)
     examples = parse_csv_list(row["examples_of_job_classified_here"])
     if examples:
         for e in examples:
@@ -432,149 +464,113 @@ def show_occupation_page(row):
     show_similarity_cards(code)
 
 # ── Job matching ─────────────────────────────────────────
+def make_snippets(resume_text, combined_desc, top_k=3):
+    resume_words = set(re.findall(r'\w+', resume_text.lower()))
+    sents = [s.strip() for s in re.split(r"(?<=[.!?])\s+", str(combined_desc)) if len(s.strip()) > 20]
+    if not sents:
+        sents = [str(combined_desc)[:200]]
+    scored = []
+    for s in sents:
+        sw = set(re.findall(r'\w+', s.lower()))
+        intersect = len(resume_words & sw)
+        union = len(resume_words | sw)
+        score = intersect / union if union > 0 else 0
+        scored.append((s, score))
+    scored.sort(key=lambda x: -x[1])
+    return scored[:top_k]
+
 def compute_job_matches(resume_weight):
-    import re
-    model = load_model()
+    resume_text = st.session_state.profile["resume"].strip()
+    occ_code = st.session_state.profile["preferred_code"]
 
-    resume_vec = model.encode([f"Tasks: {st.session_state.profile['resume'].strip()}"], convert_to_numpy=True, task="text-matching")
-    resume_vec_norm = resume_vec / np.linalg.norm(resume_vec)
+    results = api_semantic_search(
+        resume_text, "jobs", 100,
+        occupation_code=occ_code,
+        resume_weight=resume_weight,
+    )
 
-    occ_idx = code_to_idx.get(st.session_state.profile["preferred_code"])
-    occ_vec = emb_norm[occ_idx]
+    job_id_to_meta = {}
+    for _, jr in job_meta.iterrows():
+        job_id_to_meta[jr["job_id"]] = jr
 
-    combined = resume_weight * resume_vec_norm[0] + (1 - resume_weight) * occ_vec
-    combined_norm = combined / np.linalg.norm(combined)
-
-    sims = job_emb_norm @ combined_norm
-    top = np.argsort(sims)[-100:][::-1]
-
-    all_sentences = []
-    job_sent_ranges = []
-    for idx in top:
-        desc = job_meta.iloc[idx]["combined_desc"]
-        sents = [s.strip() for s in re.split(r"(?<=[.!?])\s+", desc) if len(s.strip()) > 20]
-        if not sents:
-            sents = [desc[:200]]
-        start = len(all_sentences)
-        all_sentences.extend(sents)
-        job_sent_ranges.append((start, len(all_sentences)))
-
-    sent_embs = model.encode(all_sentences, convert_to_numpy=True, task="text-matching")
-    resume_emb_norm = resume_vec_norm[0] / np.linalg.norm(resume_vec_norm[0])
-    sent_sims = sent_embs @ resume_emb_norm
-
-    job_vecs = job_emb_norm[top]
-    resume_sims_all = job_vecs @ resume_vec_norm[0]
-    occ_sims_all = job_vecs @ occ_vec
-
-    results = []
-    for rank, (idx, (s_start, s_end)) in enumerate(zip(top, job_sent_ranges)):
-        job_sent_scores = sent_sims[s_start:s_end]
-        top_k = min(3, len(job_sent_scores))
-        top_sent_idx = np.argsort(job_sent_scores)[-top_k:][::-1]
-        snippets = [(all_sentences[s_start + si], float(job_sent_scores[si])) for si in top_sent_idx]
-        row = job_meta.iloc[idx]
+    enriched = []
+    for rank, r in enumerate(results):
+        jid = r.get("job_id")
+        meta_row = job_id_to_meta.get(jid)
         skills_list, tools_list = [], []
-        try:
-            skills_list = json.loads(row["skills"]) if isinstance(row["skills"], str) else row["skills"]
-        except Exception:
-            pass
-        try:
-            tools_list = json.loads(row["tools"]) if isinstance(row["tools"], str) else row["tools"]
-        except Exception:
-            pass
-        results.append({
+        if meta_row is not None:
+            try:
+                skills_val = meta_row.get("skills")
+                skills_list = json.loads(skills_val) if isinstance(skills_val, str) else (skills_val or [])
+            except Exception:
+                pass
+            try:
+                tools_val = meta_row.get("tools")
+                tools_list = json.loads(tools_val) if isinstance(tools_val, str) else (tools_val or [])
+            except Exception:
+                pass
+        combined_desc = r.get("combined_desc", "")
+        snippets = make_snippets(resume_text, combined_desc) if rank < 10 else []
+        enriched.append({
             "rank": rank + 1,
-            "title": row["title"],
-            "company": row["company"] if pd.notna(row["company"]) else "",
-            "url": row["url"] if pd.notna(row["url"]) else "",
-            "min_exp": int(row["min_exp"]) if pd.notna(row["min_exp"]) else None,
-            "sal_min": int(row["sal_min"]) if pd.notna(row["sal_min"]) else None,
-            "sal_max": int(row["sal_max"]) if pd.notna(row["sal_max"]) else None,
-            "preview": row["preview"],
+            "title": r.get("title", ""),
+            "company": r.get("company", ""),
+            "url": r.get("url", ""),
+            "min_exp": r.get("min_exp"),
+            "sal_min": r.get("sal_min"),
+            "sal_max": r.get("sal_max"),
+            "preview": r.get("preview", ""),
+            "combined_desc": combined_desc,
             "skills": skills_list,
             "tools": tools_list,
-            "score": float(sims[idx]),
-            "resume_score": float(resume_sims_all[rank]),
-            "occ_score": float(occ_sims_all[rank]),
+            "score": r.get("profile_score", 0),
+            "resume_score": r.get("resume_score", 0),
+            "occ_score": r.get("occupation_score", 0),
             "snippets": snippets,
         })
 
-    return results
+    return enriched
 
 def compute_byo_match(description, resume_weight):
-    import re
-    model = load_model()
+    resume_text = st.session_state.profile["resume"].strip()
+    occ_code = st.session_state.profile["preferred_code"]
 
-    job_vec = model.encode([f"Tasks: {description.strip()}"], convert_to_numpy=True, task="text-matching")
-    job_vec_norm = job_vec / np.linalg.norm(job_vec)
+    profile_result = api_profile_match(
+        resume_text, description,
+        occupation_code=occ_code,
+        resume_weight=resume_weight,
+    )
 
-    resume_vec = model.encode([f"Tasks: {st.session_state.profile['resume'].strip()}"], convert_to_numpy=True, task="text-matching")
-    resume_vec_norm = resume_vec / np.linalg.norm(resume_vec)
-
-    occ_idx = code_to_idx.get(st.session_state.profile["preferred_code"])
-    occ_vec = emb_norm[occ_idx]
-
-    combined = resume_weight * resume_vec_norm[0] + (1 - resume_weight) * occ_vec
-    combined_norm = combined / np.linalg.norm(combined)
-
-    overall_score = float(job_vec_norm[0] @ combined_norm)
-    resume_score = float(job_vec_norm[0] @ resume_vec_norm[0])
-    occ_score = float(job_vec_norm[0] @ occ_vec)
-
-    sents = [s.strip() for s in re.split(r"(?<=[.!?])\s+", description) if len(s.strip()) > 20]
-    if not sents:
-        sents = [description[:200]]
-
-    sent_embs = model.encode(sents, convert_to_numpy=True, task="text-matching")
-    sent_sims = sent_embs @ resume_vec_norm[0]
-    top_k = min(3, len(sents))
-    top_sent_idx = np.argsort(sent_sims)[-top_k:][::-1]
-    snippets = [(sents[si], float(sent_sims[si])) for si in top_sent_idx]
+    snippets = make_snippets(resume_text, description)
 
     return {
         "description": description.strip(),
-        "score": overall_score,
-        "resume_score": resume_score,
-        "occ_score": occ_score,
+        "score": profile_result.get("profile_score", 0),
+        "resume_score": profile_result.get("resume_score", 0),
+        "occ_score": profile_result.get("occupation_score", 0),
         "snippets": snippets,
     }
 
-# ── Job analytics ────────────────────────────────────────
-@st.cache_data
-def compute_job_occupation_matches():
-    n_jobs = len(job_emb_norm)
-    n_occ = len(emb_norm)
-    best_idx = np.empty(n_jobs, dtype=int)
-    best_sim = np.empty(n_jobs, dtype=float)
-    batch_size = 1000
-    for i in range(0, n_jobs, batch_size):
-        batch = job_emb_norm[i:i + batch_size]
-        sims = batch @ emb_norm.T
-        best_idx[i:i + batch_size] = np.argmax(sims, axis=1)
-        best_sim[i:i + batch_size] = np.max(sims, axis=1)
-    occ_codes = emb_meta.iloc[best_idx]["code"].values
-    occ_titles = emb_meta.iloc[best_idx]["title"].values
-    return occ_codes, occ_titles, best_sim
+# ── Branding & Navigation ─────────────────────────────
+MODES = [(0, "Exact Match", 1.00), (25, "Career Fit", 0.90), (50, "Balanced", 0.80), (75, "Career Pivot", 0.60), (100, "Career Transition", 0.40)]
 
-# ── Branding ─────────────────────────────────────────────
-st.markdown("<div style='display:flex; align-items:baseline; gap:12px; margin:0 0 0 0; padding:0;'><h1 style='font-size:2rem; font-weight:900; margin:0; padding:0; line-height:1;'>1001 Occupations</h1><span style='color:#888; font-size:0.85rem;'>Explore Singapore's SSOC 2024 framework</span></div>", unsafe_allow_html=True)
+col_title, col_nav = st.columns([2, 3])
+with col_title:
+    st.markdown("<h1 style='font-size:2rem; font-weight:900; margin:0; padding:0; line-height:1;'>1001 Occupations</h1><span style='color:#888; font-size:0.85rem;'>Explore Singapore's SSOC 2024 framework</span>", unsafe_allow_html=True)
+with col_nav:
+    if st.session_state.page != "occupation":
+        if st.session_state.nav_target:
+            st.session_state.nav_tab = st.session_state.nav_target
+            st.session_state.nav_target = None
+        st.segmented_control("Navigation", ["Home", "My Profile", "Explore Occupations", "Find Jobs", "Bring Your Own Job"], key="nav_tab", label_visibility="collapsed")
+
 st.divider()
-
-# ── Navigation & Tab Router ──────────────────────────────
-MODES = [(0, "Career Fit", 0.90), (33, "Balanced", 0.80), (67, "Career Pivot", 0.60), (100, "Career Transition", 0.40)]
 
 if st.session_state.page == "occupation":
     row = df[df["occupation_code"] == st.session_state.selected_code]
     if not row.empty:
         show_occupation_page(row.iloc[0])
 else:
-    if st.session_state.nav_target:
-        st.session_state.nav_tab = st.session_state.nav_target
-        st.session_state.nav_target = None
-    st.segmented_control("Navigation", ["Home", "My Profile", "Explore Occupations", "Find Jobs", "Bring Your Own Job"], key="nav_tab")
-
-    st.markdown("---")
 
     if st.session_state.nav_tab != st.session_state.prev_tab:
         if st.session_state.nav_tab == "My Profile":
@@ -587,17 +583,6 @@ else:
         with col_img:
             st.image("assets/Landing_page.png", width="stretch")
         st.markdown("<p style='text-align:center; font-size:1.2rem; color:#555;'>Upload your resume to discover occupations and find matching jobs.</p>", unsafe_allow_html=True)
-
-        with st.expander("Debug: Package Versions"):
-            import torch, transformers, sentence_transformers, huggingface_hub, pandas, numpy
-            st.write({
-                "torch": torch.__version__,
-                "transformers": transformers.__version__,
-                "sentence-transformers": sentence_transformers.__version__,
-                "huggingface_hub": huggingface_hub.__version__,
-                "pandas": pandas.__version__,
-                "numpy": numpy.__version__,
-            })
 
         btn_label = "Go to My Profile" if st.session_state.profile["resume"].strip() else "Upload Resume"
         if st.button(btn_label, type="primary", width="stretch"):
@@ -639,18 +624,17 @@ else:
             st.session_state.jobs_dirty = True
             if st.session_state.profile["resume"].strip():
                 with st.spinner("Matching your resume to occupations..."):
-                    model = load_model()
-                    vec = model.encode([f"Tasks: {st.session_state.profile['resume'].strip()}"], convert_to_numpy=True, task="text-matching")
-                    vec_norm = vec / np.linalg.norm(vec)
-                    sims = (emb_norm @ vec_norm[0]).flatten()
-                    top = np.argsort(sims)[-5:][::-1]
+                    api_results = api_semantic_search(
+                        st.session_state.profile["resume"].strip(),
+                        "occupations", 5,
+                    )
                     st.session_state.match_results = []
-                    for idx in top:
-                        code = int(emb_meta.iloc[idx]["code"])
-                        title = emb_meta.iloc[idx]["title"]
+                    for r in api_results:
                         st.session_state.match_results.append({
                             "rank": len(st.session_state.match_results) + 1,
-                            "code": code, "title": title, "score": float(sims[idx]),
+                            "code": int(r["code"]),
+                            "title": r["title"],
+                            "score": r["profile_score"],
                         })
                     if not st.session_state.profile["preferred_code"] and st.session_state.match_results:
                         top_res = st.session_state.match_results[0]
@@ -725,7 +709,13 @@ else:
                 st.session_state.jobs_dirty = True
             st.session_state.profile["max_exp"] = st.session_state.max_exp_years
         with col_s2:
-            st.markdown("**Salary Range** — *Coming soon*")
+            st.markdown("**Salary Range (SGD/month)**")
+            sal_min = st.number_input("Min Salary", min_value=0, max_value=100000, value=st.session_state.profile["sal_min"], step=500, key="sal_min_val")
+            sal_max = st.number_input("Max Salary", min_value=0, max_value=100000, value=st.session_state.profile["sal_max"], step=500, key="sal_max_val")
+            if st.session_state.profile["sal_min"] != sal_min or st.session_state.profile["sal_max"] != sal_max:
+                st.session_state.jobs_dirty = True
+            st.session_state.profile["sal_min"] = sal_min
+            st.session_state.profile["sal_max"] = sal_max
 
     elif st.session_state.nav_tab == "Explore Occupations":
         pmet_filter = st.segmented_control(
@@ -839,7 +829,14 @@ else:
         if st.session_state.get("job_match_results"):
             all_results = st.session_state.job_match_results
             max_exp_filter = st.session_state.profile["max_exp"]
-            results = [r for r in all_results if r["min_exp"] is None or r["min_exp"] <= max_exp_filter]
+            sal_min_filter = st.session_state.profile["sal_min"]
+            sal_max_filter = st.session_state.profile["sal_max"]
+            results = [
+                r for r in all_results
+                if (r["min_exp"] is None or r["min_exp"] <= max_exp_filter)
+                and (r["sal_min"] is None or r["sal_max"] is None or
+                     (r["sal_min"] <= sal_max_filter and r["sal_max"] >= sal_min_filter))
+            ]
             total_all = len(all_results)
             st.subheader(f"Top {len(results)} Matching Jobs" + (f" (filtered from {total_all})" if len(results) < total_all else ""))
 
@@ -865,9 +862,25 @@ else:
                     st.session_state.job_page = page + 1
                     st.rerun()
 
-            for res in results[start_idx:end_idx]:
+            from concurrent.futures import ThreadPoolExecutor, as_completed
+            lazy_resume_text = st.session_state.profile["resume"].strip()
+            page_results = list(results[start_idx:end_idx])
+            missing = [(i, r) for i, r in enumerate(page_results) if not r.get("snippets") and r.get("combined_desc")]
+            if missing:
+                with st.spinner("Computing evidence..."):
+                    def compute_snippets(i, r):
+                        try:
+                            return i, make_snippets(lazy_resume_text, r["combined_desc"])
+                        except Exception:
+                            return i, []
+                    with ThreadPoolExecutor(max_workers=5) as ex:
+                        futs = {ex.submit(compute_snippets, i, r): i for i, r in missing}
+                        for f in as_completed(futs):
+                            i, snippets = f.result()
+                            page_results[i]["snippets"] = snippets
+            for idx, res in enumerate(page_results):
                 with st.container(border=True):
-                    st.markdown(f"**#{res['rank']}** &nbsp; {res['title']} &nbsp;—&nbsp; Match: **{res['score']:.1%}**")
+                    st.markdown(f"**#{start_idx + idx + 1}** &nbsp; {res['title']} &nbsp;—&nbsp; Match: **{res['score']:.1%}**")
                     st.markdown(f"Resume: {res['resume_score']:.1%} &nbsp; Occupation: {res['occ_score']:.1%}")
                     meta_parts = []
                     if res["company"]:
@@ -876,10 +889,32 @@ else:
                         meta_parts.append(f"Exp: {int(res['min_exp'])} yr{'s' if res['min_exp'] != 1 else ''}")
                     if res["sal_min"] is not None and res["sal_max"] is not None:
                         meta_parts.append(f"SGD {int(res['sal_min']):,} to SGD {int(res['sal_max']):,}")
-                    if res["url"]:
-                        meta_parts.append(f"[Apply]({res['url']})")
-                    if meta_parts:
-                        st.markdown(" | ".join(meta_parts), unsafe_allow_html=True)
+                    left_html = " | ".join(meta_parts) if meta_parts else ""
+                    if left_html or res.get("url"):
+                        st.markdown(f"<div style='display:flex;justify-content:space-between;align-items:center;gap:8px'><span>{left_html}</span></div>", unsafe_allow_html=True)
+                    if res.get("url"):
+                        state_key = f"explain_result_{id(res)}"
+                        gap, btn_e, btn_a = st.columns([6, 1, 1])
+                        with gap:
+                            st.markdown("&nbsp;")
+                        with btn_e:
+                            if st.button("✨ Explain", key=f"explain_btn_{id(res)}", use_container_width=True):
+                                with st.spinner("Analysing..."):
+                                    resume = st.session_state.profile["resume"].strip()[:2000]
+                                    desc = res.get("combined_desc", "")[:2000]
+                                    prompt = f"In a few sentences, explain why this job is a good match. State which skills align and note any obvious gaps.\n\nResume:\n{resume}\n\nJob Description:\n{desc}"
+                                    explanation, used_fallback = explain_match(prompt)
+                                    if used_fallback:
+                                        st.toast("External LLM limit reached. Using fallback model.", icon="⚠️")
+                                    if isinstance(explanation, dict):
+                                        explanation = explanation.get("response", str(explanation))
+                                    st.session_state[state_key] = str(explanation)
+                                st.rerun()
+                        with btn_a:
+                            st.link_button("🚀 Apply on MyCareersFuture", res["url"], type="primary", use_container_width=True)
+                        if st.session_state.get(state_key):
+                            with st.expander("Explanation", expanded=False):
+                                st.write(st.session_state[state_key])
                     if res.get("skills") or res.get("tools"):
                         seen = set()
                         combined = []
@@ -890,8 +925,8 @@ else:
                         st.markdown(f"<span style='color:#e67e22'>{' · '.join(combined)}</span>", unsafe_allow_html=True)
                     if res.get("snippets"):
                         with st.expander("Evidence from job description", expanded=False):
-                            for sent, sc in res["snippets"]:
-                                st.markdown(f"- {sent} ({sc:.0%})")
+                            for sent, _ in res["snippets"]:
+                                st.markdown(f"- {sent}")
 
             if st.button("Refresh results", type="primary", width="stretch"):
                 with st.status("Finding matching jobs...", expanded=False) as s:
@@ -967,8 +1002,8 @@ Paste a job description below and we'll score it based on your **resume**, **tar
                                 st.rerun()
 
                         with st.expander("Evidence from job description", expanded=False):
-                            for sent, sc in job["snippets"]:
-                                st.markdown(f"- {sent} ({sc:.0%})")
+                            for sent, _ in job["snippets"]:
+                                st.markdown(f"- {sent}")
 
                 col_refresh, col_clear = st.columns(2)
                 with col_refresh:

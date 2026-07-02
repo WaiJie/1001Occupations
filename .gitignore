@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 *.pyo
 .env
+.streamlit/secrets.toml
 .DS_Store
 
 # Standalone scripts and source data (one-time use, not deployed)
@@ -17,3 +18,5 @@ final_jobsv2.jsonl
 job_embeddings.npy
 job_metadata.csv
 split_metadata.py
+
+test_gradio_api.py
