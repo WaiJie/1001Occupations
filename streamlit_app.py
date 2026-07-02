@@ -57,8 +57,6 @@ div[role="radiogroup"] label[aria-checked="true"] {
 DATA_PATH = "data/ssoc2024_flat_wide.xlsx"
 COORDS_PATH = "data/ssoc_umap_coords.csv"
 META_PATH = "data/ssoc_metadata.csv"
-JOB_META_PATH1 = "data/job_metadata_part1.csv"
-JOB_META_PATH2 = "data/job_metadata_part2.csv"
 OCC_SKILLS_TOOLS_PATH = "data/occupation_skills_tools.csv"
 
 MAJOR_COLORS = {
@@ -97,10 +95,6 @@ def load_occupation_metadata():
     return pd.read_csv(META_PATH)
 
 @st.cache_data
-def load_job_metadata():
-    return pd.concat([pd.read_csv(JOB_META_PATH1), pd.read_csv(JOB_META_PATH2)], ignore_index=True)
-
-@st.cache_data
 def load_occupation_skills_tools():
     return pd.read_csv(OCC_SKILLS_TOOLS_PATH)
 
@@ -111,7 +105,6 @@ def load_occupation_stats():
 df = load_occupations()
 umap_df = load_coords()
 emb_meta = load_occupation_metadata()
-job_meta = load_job_metadata()
 occ_skills_tools_df = load_occupation_skills_tools()
 occ_stats_df = load_occupation_stats()
 
@@ -510,27 +503,18 @@ def compute_job_matches(resume_weight):
         resume_weight=resume_weight,
     )
 
-    job_id_to_meta = {}
-    for _, jr in job_meta.iterrows():
-        job_id_to_meta[jr["job_id"]] = jr
-
     enriched = []
     for rank, r in enumerate(results):
-        jid = r.get("job_id")
-        meta_row = job_id_to_meta.get(jid)
-        skills_list, tools_list = [], []
-        if meta_row is not None:
-            try:
-                skills_val = meta_row.get("skills")
-                skills_list = json.loads(skills_val) if isinstance(skills_val, str) else (skills_val or [])
-            except Exception:
-                pass
-            try:
-                tools_val = meta_row.get("tools")
-                tools_list = json.loads(tools_val) if isinstance(tools_val, str) else (tools_val or [])
-            except Exception:
-                pass
         combined_desc = r.get("combined_desc", "")
+        skills_list, tools_list = [], []
+        try:
+            skills_list = json.loads(r["skills"]) if r.get("skills") else []
+        except Exception:
+            pass
+        try:
+            tools_list = json.loads(r["tools"]) if r.get("tools") else []
+        except Exception:
+            pass
         snippets = make_snippets(resume_text, combined_desc) if rank < 10 else []
         enriched.append({
             "rank": rank + 1,
@@ -564,12 +548,21 @@ def compute_byo_match(description, resume_weight):
 
     snippets = make_snippets(resume_text, description)
 
+    try:
+        occ_results = api_semantic_search(description.strip()[:1000], "occupations", 5)
+        similar = []
+        for r in occ_results:
+            similar.append({"code": int(r["code"]), "title": r["title"], "score": r["profile_score"]})
+    except Exception:
+        similar = []
+
     return {
         "description": description.strip(),
         "score": profile_result.get("profile_score", 0),
         "resume_score": profile_result.get("resume_score", 0),
         "occ_score": profile_result.get("occupation_score", 0),
         "snippets": snippets,
+        "similar_occ": similar,
     }
 
 # ── Branding & Navigation ─────────────────────────────
@@ -1056,6 +1049,10 @@ Paste a job description below and we'll score it based on your **resume**, **tar
                         if st.session_state.get(state_key):
                             with st.expander("Explanation", expanded=False):
                                 st.write(st.session_state[state_key])
+
+                        if job.get("similar_occ"):
+                            codes = " · ".join(f"{o['code']} {o['title']}" for o in job["similar_occ"])
+                            st.markdown(f"<span style='font-size:0.8rem;color:#888'>Related: {codes}</span>", unsafe_allow_html=True)
 
                         with st.expander("Evidence from job description", expanded=False):
                             for sent, _ in job["snippets"]:
