@@ -1,4 +1,5 @@
 import os, warnings, json, re, ast
+from datetime import date
 os.environ["HF_HUB_DISABLE_SYMLINK_WARNING"] = "1"
 os.environ["HF_HUB_DISABLE_PROGRESS_BARS"] = "1"
 os.environ["TRANSFORMERS_VERBOSITY"] = "error"
@@ -162,7 +163,10 @@ if "profile" not in st.session_state:
         "max_exp": 20,
         "sal_min": 0,
         "sal_max": 50000,
+        "job_status_filter": "Open",
     }
+if "job_status_filter" not in st.session_state.profile:
+    st.session_state.profile["job_status_filter"] = "Open"
 if "career_dir" not in st.session_state:
     st.session_state.career_dir = st.session_state.profile["career_direction"]
 if "max_exp_years" not in st.session_state:
@@ -517,7 +521,7 @@ def _parse_gliner_list(val):
         return []
 
 def normalize_job(r):
-    return {
+    n = {
         "title": r.get("title", ""),
         "company": r.get("postedCompany__name") or r.get("company") or "",
         "url": r.get("metadata__jobDetailsUrl") or r.get("url") or "",
@@ -537,6 +541,18 @@ def normalize_job(r):
         "posted_date": r.get("metadata__newPostingDate") or r.get("metadata__originalPostingDate") or "",
         "expiry_date": r.get("metadata__expiryDate") or "",
     }
+    raw_status = n["job_status"].lower()
+    if raw_status in ("closed", "removed", "filled"):
+        n["is_closed"] = True
+    elif n["expiry_date"]:
+        try:
+            exp = date.fromisoformat(n["expiry_date"])
+            n["is_closed"] = exp < date.today()
+        except Exception:
+            n["is_closed"] = False
+    else:
+        n["is_closed"] = False
+    return n
 
 def compute_job_matches(resume_weight):
     resume_text = st.session_state.profile["resume"].strip()
@@ -571,6 +587,7 @@ def compute_job_matches(resume_weight):
             "job_status": n["job_status"],
             "posted_date": n["posted_date"],
             "expiry_date": n["expiry_date"],
+            "is_closed": n["is_closed"],
         })
 
     return enriched
@@ -727,34 +744,41 @@ else:
                 st.rerun()
 
             st.divider()
-            st.subheader("Target Occupation")
-            if st.session_state.profile["preferred_code"]:
-                st.markdown(f"**{st.session_state.profile['preferred_code']}** — {st.session_state.profile['preferred_title']}")
-                if st.button("Clear target occupation"):
-                    st.session_state.profile["preferred_code"] = None
-                    st.session_state.profile["preferred_title"] = None
+            col_target, col_career = st.columns([1, 1])
+            with col_target:
+                st.subheader("Target Occupation")
+                if st.session_state.profile["preferred_code"]:
+                    st.markdown(f"**{st.session_state.profile['preferred_code']}** — {st.session_state.profile['preferred_title']}")
+                    if st.button("Clear target occupation"):
+                        st.session_state.profile["preferred_code"] = None
+                        st.session_state.profile["preferred_title"] = None
+                        st.session_state.jobs_dirty = True
+                        st.rerun()
+                else:
+                    st.warning("Select a target occupation from your matches above.")
+            with col_career:
+                st.subheader("Career Direction")
+                st.caption("Slide towards **Career Transition** to prioritise your target occupation over your current experience when finding matching jobs.")
+                help_lines = ["Controls how much weight to put on your current experience vs your target occupation."]
+                for _, lbl, rw in MODES:
+                    help_lines.append(f"  - {lbl}: {rw*100:.0f}% resume / {(1-rw)*100:.0f}% occupation")
+                lbl_left, slider, lbl_right = st.columns([1, 4, 1])
+                with lbl_left:
+                    st.markdown("<div style='text-align:center;padding-top:4px;font-size:0.85rem;color:#666'>Exact Match</div>", unsafe_allow_html=True)
+                with slider:
+                    st.select_slider(
+                        "Career Direction",
+                        options=[m[0] for m in MODES],
+                        format_func=lambda x: _get_mode(x)[1],
+                        key="career_dir",
+                        label_visibility="collapsed",
+                        help="\n".join(help_lines),
+                    )
+                with lbl_right:
+                    st.markdown("<div style='text-align:center;padding-top:4px;font-size:0.85rem;color:#666'>Career Transition</div>", unsafe_allow_html=True)
+                if st.session_state.profile["career_direction"] != st.session_state.career_dir:
                     st.session_state.jobs_dirty = True
-                    st.rerun()
-            else:
-                st.warning("Select a target occupation from your matches above.")
-        else:
-            st.info("Save your resume above to get started.")
-
-        st.divider()
-        st.subheader("Career Direction")
-        help_lines = ["Controls how much weight to put on your current experience vs your target occupation."]
-        for _, label, rw in MODES:
-            help_lines.append(f"  - {label}: {rw*100:.0f}% resume / {(1-rw)*100:.0f}% occupation")
-        st.select_slider(
-            "Career Direction",
-            options=[m[0] for m in MODES],
-            format_func=lambda x: _get_mode(x)[1],
-            key="career_dir",
-            help="\n".join(help_lines),
-        )
-        if st.session_state.profile["career_direction"] != st.session_state.career_dir:
-            st.session_state.jobs_dirty = True
-        st.session_state.profile["career_direction"] = st.session_state.career_dir
+                st.session_state.profile["career_direction"] = st.session_state.career_dir
 
         st.divider()
         st.subheader("Preferences")
@@ -772,6 +796,10 @@ else:
                 st.session_state.jobs_dirty = True
             st.session_state.profile["sal_min"] = sal_min
             st.session_state.profile["sal_max"] = sal_max
+        job_status = st.selectbox("Job Status", ["Open", "Closed", "All"], key="job_status_sel")
+        if st.session_state.profile["job_status_filter"] != job_status:
+            st.session_state.jobs_dirty = True
+        st.session_state.profile["job_status_filter"] = job_status
 
     elif st.session_state.nav_tab == "Explore Occupations":
         pmet_filter = st.segmented_control(
@@ -898,6 +926,7 @@ else:
 
         if st.session_state.get("job_match_results"):
             all_results = st.session_state.job_match_results
+            job_status_filter = st.session_state.profile.get("job_status_filter", "Open")
             max_exp_filter = st.session_state.profile["max_exp"]
             sal_min_filter = st.session_state.profile["sal_min"]
             sal_max_filter = st.session_state.profile["sal_max"]
@@ -907,6 +936,10 @@ else:
                 and (r["sal_min"] is None or r["sal_max"] is None or
                      (r["sal_min"] <= sal_max_filter and r["sal_max"] >= sal_min_filter))
             ]
+            if job_status_filter == "Open":
+                results = [r for r in results if not r.get("is_closed", False)]
+            elif job_status_filter == "Closed":
+                results = [r for r in results if r.get("is_closed", False)]
             total_all = len(all_results)
             st.subheader(f"Top {len(results)} Matching Jobs" + (f" (filtered from {total_all})" if len(results) < total_all else ""))
 
@@ -950,12 +983,18 @@ else:
                             page_results[i]["snippets"] = snippets
             for idx, res in enumerate(page_results):
                 with st.container(border=True):
+                    is_closed = res.get("is_closed", False)
                     status = res.get("job_status", "")
-                    if status:
+                    if is_closed:
+                        display_status = "Closed"
+                        color = "#e74c3c"
+                    elif status:
+                        display_status = status
                         color = "#27ae60" if status.lower() in ("open", "re-open") else "#e74c3c"
-                        badge = f" <span style='background:{color};color:white;padding:2px 8px;border-radius:4px;font-size:0.75rem;vertical-align:middle'>{status}</span>"
                     else:
-                        badge = ""
+                        display_status = ""
+                        color = ""
+                    badge = f" <span style='background:{color};color:white;padding:2px 8px;border-radius:4px;font-size:0.75rem;vertical-align:middle'>{display_status}</span>" if display_status else ""
                     col_title, col_btns = st.columns([4, 1])
                     with col_title:
                         st.markdown(f"**#{start_idx + idx + 1}** &nbsp; {res['title']}{badge}", unsafe_allow_html=True)
