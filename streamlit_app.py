@@ -1,4 +1,4 @@
-import os, warnings, json, re
+import os, warnings, json, re, ast
 os.environ["HF_HUB_DISABLE_SYMLINK_WARNING"] = "1"
 os.environ["HF_HUB_DISABLE_PROGRESS_BARS"] = "1"
 os.environ["TRANSFORMERS_VERBOSITY"] = "error"
@@ -158,7 +158,7 @@ if "profile" not in st.session_state:
         "resume": "",
         "preferred_code": None,
         "preferred_title": None,
-        "career_direction": 33,
+        "career_direction": 0,
         "max_exp": 20,
         "sal_min": 0,
         "sal_max": 50000,
@@ -441,15 +441,23 @@ def show_occupation_page(row):
         st.divider()
 
     row_text = row["occupation_title"] + " " + (row.get("tasks", "") or "")
-    top_jobs = api_semantic_search(row_text, "jobs", 5)
+    top_jobs = []
+    try:
+        top_jobs = api_semantic_search(row_text, "jobs", 5)
+    except Exception:
+        try:
+            top_jobs = api_semantic_search(row_text, "jobs", 5)
+        except Exception:
+            st.warning("Could not load representative job posts. Please try again later.")
     if top_jobs:
         st.markdown(f"##### Top Representative Job Posts {SOURCE_JOBS}", unsafe_allow_html=True)
         st.markdown("Highest-similarity job postings matched to this occupation.")
         for rank, jr in enumerate(top_jobs, 1):
-            preview = str(jr.get("preview", "") or "")
-            company = str(jr.get("company", "") or "")
-            url = str(jr.get("url", "") or "")
-            sim = jr.get("profile_score", 0)
+            nj = normalize_job(jr)
+            preview = _strip_html(nj.get("preview") or nj["description"][:200] or "")
+            company = nj["company"]
+            url = nj["url"]
+            sim = nj["profile_score"]
             with st.container(border=True):
                 st.markdown(f"**#{rank}** &nbsp; {jr['title']}  —  Similarity: **{sim:.1%}**")
                 if company:
@@ -478,11 +486,17 @@ def show_occupation_page(row):
     show_similarity_cards(code)
 
 # ── Job matching ─────────────────────────────────────────
+def _strip_html(text):
+    text = re.sub(r'<[^>]+>', ' ', str(text))
+    text = text.replace('&amp;', '&').replace('&lt;', '<').replace('&gt;', '>').replace('&nbsp;', ' ')
+    return re.sub(r'\s+', ' ', text).strip()
+
 def make_snippets(resume_text, combined_desc, top_k=3):
     resume_words = set(re.findall(r'\w+', resume_text.lower()))
-    sents = [s.strip() for s in re.split(r"(?<=[.!?])\s+", str(combined_desc)) if len(s.strip()) > 20]
+    clean_desc = _strip_html(combined_desc)
+    sents = [s.strip() for s in re.split(r"(?<=[.!?])\s+", clean_desc) if len(s.strip()) > 20]
     if not sents:
-        sents = [str(combined_desc)[:200]]
+        sents = [clean_desc[:200]]
     scored = []
     for s in sents:
         sw = set(re.findall(r'\w+', s.lower()))
@@ -492,6 +506,37 @@ def make_snippets(resume_text, combined_desc, top_k=3):
         scored.append((s, score))
     scored.sort(key=lambda x: -x[1])
     return scored[:top_k]
+
+def _parse_gliner_list(val):
+    if not val:
+        return []
+    try:
+        result = ast.literal_eval(val)
+        return result if isinstance(result, list) else []
+    except Exception:
+        return []
+
+def normalize_job(r):
+    return {
+        "title": r.get("title", ""),
+        "company": r.get("postedCompany__name") or r.get("company") or "",
+        "url": r.get("metadata__jobDetailsUrl") or r.get("url") or "",
+        "min_exp": r.get("minimumYearsExperience") or r.get("min_exp"),
+        "sal_min": r.get("salary__minimum") or r.get("sal_min"),
+        "sal_max": r.get("salary__maximum") or r.get("sal_max"),
+        "preview": r.get("preview") or "",
+        "description": r.get("description") or r.get("combined_desc") or "",
+        "embedding_text": r.get("embedding_text") or r.get("description") or r.get("combined_desc") or "",
+        "skills": _parse_gliner_list(r.get("gliner_skills")) or (r.get("skills") or []),
+        "tools": _parse_gliner_list(r.get("gliner_tools")) or (r.get("tools") or []),
+        "profile_score": r.get("profile_score", 0),
+        "resume_score": r.get("resume_score", 0),
+        "occupation_score": r.get("occupation_score", 0),
+        "uuid": r.get("uuid") or r.get("job_id"),
+        "job_status": r.get("status__jobStatus") or "",
+        "posted_date": r.get("metadata__newPostingDate") or r.get("metadata__originalPostingDate") or "",
+        "expiry_date": r.get("metadata__expiryDate") or "",
+    }
 
 def compute_job_matches(resume_weight):
     resume_text = st.session_state.profile["resume"].strip()
@@ -505,33 +550,27 @@ def compute_job_matches(resume_weight):
 
     enriched = []
     for rank, r in enumerate(results):
-        combined_desc = r.get("combined_desc", "")
-        skills_list, tools_list = [], []
-        try:
-            skills_list = json.loads(r["skills"]) if r.get("skills") else []
-        except Exception:
-            pass
-        try:
-            tools_list = json.loads(r["tools"]) if r.get("tools") else []
-        except Exception:
-            pass
-        snippets = make_snippets(resume_text, combined_desc) if rank < 10 else []
+        n = normalize_job(r)
+        snippets = make_snippets(resume_text, n["embedding_text"]) if rank < 10 else []
         enriched.append({
             "rank": rank + 1,
-            "title": r.get("title", ""),
-            "company": r.get("company", ""),
-            "url": r.get("url", ""),
-            "min_exp": r.get("min_exp"),
-            "sal_min": r.get("sal_min"),
-            "sal_max": r.get("sal_max"),
-            "preview": r.get("preview", ""),
-            "combined_desc": combined_desc,
-            "skills": skills_list,
-            "tools": tools_list,
-            "score": r.get("profile_score", 0),
-            "resume_score": r.get("resume_score", 0),
-            "occ_score": r.get("occupation_score", 0),
+            "title": n["title"],
+            "company": n["company"],
+            "url": n["url"],
+            "min_exp": n["min_exp"],
+            "sal_min": n["sal_min"],
+            "sal_max": n["sal_max"],
+            "preview": n["preview"],
+            "combined_desc": n["description"],
+            "skills": n["skills"],
+            "tools": n["tools"],
+            "score": n["profile_score"],
+            "resume_score": n["resume_score"],
+            "occ_score": n["occupation_score"],
             "snippets": snippets,
+            "job_status": n["job_status"],
+            "posted_date": n["posted_date"],
+            "expiry_date": n["expiry_date"],
         })
 
     return enriched
@@ -567,6 +606,9 @@ def compute_byo_match(description, resume_weight):
 
 # ── Branding & Navigation ─────────────────────────────
 MODES = [(0, "Exact Match", 1.00), (25, "Career Fit", 0.90), (50, "Balanced", 0.80), (75, "Career Pivot", 0.60), (100, "Career Transition", 0.40)]
+
+def _get_mode(career_direction):
+    return min(MODES, key=lambda m: abs(m[0] - career_direction))
 
 col_title, col_nav = st.columns([2, 3])
 with col_title:
@@ -615,7 +657,7 @@ else:
                 st.markdown("**Resume**")
                 st.info("Uploaded")
             with c3:
-                label = next(m[1] for m in MODES if m[0] == st.session_state.profile["career_direction"])
+                label = _get_mode(st.session_state.profile["career_direction"])[1]
                 st.markdown("**Career Direction**")
                 st.info(label)
             if st.button("Continue Finding Jobs", type="primary", width="stretch"):
@@ -706,7 +748,7 @@ else:
         st.select_slider(
             "Career Direction",
             options=[m[0] for m in MODES],
-            format_func=lambda x: next(m[1] for m in MODES if m[0] == x),
+            format_func=lambda x: _get_mode(x)[1],
             key="career_dir",
             help="\n".join(help_lines),
         )
@@ -844,7 +886,7 @@ else:
 
     elif st.session_state.nav_tab == "Find Jobs":
         st.markdown("Recommendations based on your profile settings under the **My Profile** tab.")
-        resume_weight = next(m[2] for m in MODES if m[0] == st.session_state.profile["career_direction"])
+        resume_weight = _get_mode(st.session_state.profile["career_direction"])[2]
 
         ready = bool(st.session_state.profile["resume"].strip() and st.session_state.profile["preferred_code"])
 
@@ -908,24 +950,36 @@ else:
                             page_results[i]["snippets"] = snippets
             for idx, res in enumerate(page_results):
                 with st.container(border=True):
-                    st.markdown(f"**#{start_idx + idx + 1}** &nbsp; {res['title']} &nbsp;—&nbsp; Match: **{res['score']:.1%}**")
-                    st.markdown(f"Resume: {res['resume_score']:.1%} &nbsp; Occupation: {res['occ_score']:.1%}")
-                    meta_parts = []
-                    if res["company"]:
-                        meta_parts.append(f"<span style='color:#1b2a4a;font-weight:700'>{res['company']}</span>")
-                    if res["min_exp"] is not None:
-                        meta_parts.append(f"Exp: {int(res['min_exp'])} yr{'s' if res['min_exp'] != 1 else ''}")
-                    if res["sal_min"] is not None and res["sal_max"] is not None:
-                        meta_parts.append(f"SGD {int(res['sal_min']):,} to SGD {int(res['sal_max']):,}")
-                    left_html = " | ".join(meta_parts) if meta_parts else ""
-                    if left_html or res.get("url"):
-                        st.markdown(f"<div style='display:flex;justify-content:space-between;align-items:center;gap:8px'><span>{left_html}</span></div>", unsafe_allow_html=True)
-                    if res.get("url"):
-                        state_key = f"explain_result_{id(res)}"
-                        gap, btn_e, btn_a = st.columns([6, 1, 1])
-                        with gap:
-                            st.markdown("&nbsp;")
-                        with btn_e:
+                    status = res.get("job_status", "")
+                    if status:
+                        color = "#27ae60" if status.lower() in ("open", "re-open") else "#e74c3c"
+                        badge = f" <span style='background:{color};color:white;padding:2px 8px;border-radius:4px;font-size:0.75rem;vertical-align:middle'>{status}</span>"
+                    else:
+                        badge = ""
+                    col_title, col_btns = st.columns([4, 1])
+                    with col_title:
+                        st.markdown(f"**#{start_idx + idx + 1}** &nbsp; {res['title']}{badge}", unsafe_allow_html=True)
+                        if res["company"]:
+                            st.markdown(f"<span style='color:#1b2a4a;font-weight:700;font-size:0.95rem'>{res['company']}</span>", unsafe_allow_html=True)
+                        date_parts = []
+                        if res.get("posted_date"):
+                            date_parts.append(f"Posted: {res['posted_date']}")
+                        if res.get("expiry_date"):
+                            date_parts.append(f"Expires: {res['expiry_date']}")
+                        if date_parts:
+                            st.markdown(f"<span style='color:#888;font-size:0.85rem'>{' &nbsp;·&nbsp; '.join(date_parts)}</span>", unsafe_allow_html=True)
+                        info_parts = []
+                        if res["min_exp"] is not None:
+                            info_parts.append(f"📋 {int(res['min_exp'])} yr{'s' if res['min_exp'] != 1 else ''} exp")
+                        if res["sal_min"] is not None and res["sal_max"] is not None:
+                            info_parts.append(f"💰 SGD {int(res['sal_min']):,} – {int(res['sal_max']):,}")
+                        if info_parts:
+                            st.markdown(" &nbsp;|&nbsp; ".join(info_parts))
+                        st.markdown(f"🎯 Match: **{res['score']:.1%}** &nbsp; Resume: {res['resume_score']:.1%} &nbsp; Occupation: {res['occ_score']:.1%}")
+                    with col_btns:
+                        if res.get("url"):
+                            state_key = f"explain_result_{id(res)}"
+                            st.link_button("🚀 Apply", res["url"], type="primary", use_container_width=True)
                             if st.button("✨ Explain", key=f"explain_btn_{id(res)}", use_container_width=True):
                                 with st.spinner("Analysing..."):
                                     resume = st.session_state.profile["resume"].strip()[:2000]
@@ -938,11 +992,8 @@ else:
                                         explanation = explanation.get("response", str(explanation))
                                     st.session_state[state_key] = str(explanation)
                                 st.rerun()
-                        with btn_a:
-                            st.link_button("🚀 Apply on MyCareersFuture", res["url"], type="primary", use_container_width=True)
-                        if st.session_state.get(state_key):
-                            with st.expander("Explanation", expanded=False):
-                                st.write(st.session_state[state_key])
+                    if res.get("url") and st.session_state.get(f"explain_result_{id(res)}"):
+                        st.info(st.session_state[f"explain_result_{id(res)}"])
                     if res.get("skills") or res.get("tools"):
                         seen = set()
                         combined = []
@@ -950,11 +1001,11 @@ else:
                             if item not in seen:
                                 seen.add(item)
                                 combined.append(item)
-                        st.markdown(f"<span style='color:#e67e22'>{' · '.join(combined)}</span>", unsafe_allow_html=True)
+                        st.markdown(f"**Skills & Tools:** <span style='color:#e67e22'>{' · '.join(combined)}</span>", unsafe_allow_html=True)
                     if res.get("snippets"):
-                        with st.expander("Evidence from job description", expanded=False):
-                            for sent, _ in res["snippets"]:
-                                st.markdown(f"- {sent}")
+                        st.markdown("**Evidence from job description:**")
+                        for sent, _ in res["snippets"]:
+                            st.markdown(f"- {sent}")
 
             if st.button("Refresh results", type="primary", width="stretch"):
                 with st.status("Finding matching jobs...", expanded=False) as s:
@@ -999,7 +1050,7 @@ Paste a job description below and we'll score it based on your **resume**, **tar
         if not ready:
             st.info("Set your resume and target occupation in **My Profile** before evaluating jobs.")
         else:
-            resume_weight = next(m[2] for m in MODES if m[0] == st.session_state.profile["career_direction"])
+            resume_weight = _get_mode(st.session_state.profile["career_direction"])[2]
             label = next(m[1] for m in MODES if m[0] == st.session_state.profile["career_direction"])
 
             if st.session_state.byo_input.strip():
@@ -1018,22 +1069,14 @@ Paste a job description below and we'll score it based on your **resume**, **tar
                 sorted_jobs = sorted(st.session_state.byo_jobs, key=lambda x: x["score"], reverse=True)
                 for rank, job in enumerate(sorted_jobs, 1):
                     with st.container(border=True):
-                        col_main, col_remove = st.columns([10, 1])
-                        with col_main:
+                        col_title, col_btns = st.columns([4, 1])
+                        with col_title:
                             st.markdown(f"**#{rank}** &nbsp; Match: **{job['score']:.1%}**")
                             st.markdown(f"Resume: {job['resume_score']:.1%} &nbsp; Occupation: {job['occ_score']:.1%} &nbsp; Weighting: {label} ({resume_weight*100:.0f}% / {(1-resume_weight)*100:.0f}%)")
-                            preview = job["description"][:200] + ("..." if len(job["description"]) > 200 else "")
+                            preview = _strip_html(job["description"][:200] + ("..." if len(job["description"]) > 200 else ""))
                             st.caption(preview)
-                        with col_remove:
-                            if st.button("✕", key=f"byo_del_{id(job)}", help="Remove"):
-                                st.session_state.byo_jobs = [j for j in st.session_state.byo_jobs if id(j) != id(job)]
-                                st.rerun()
-
-                        state_key = f"byo_explain_{id(job)}"
-                        gap, btn_explain = st.columns([6, 1])
-                        with gap:
-                            st.markdown("&nbsp;")
-                        with btn_explain:
+                        with col_btns:
+                            state_key = f"byo_explain_{id(job)}"
                             if st.button("✨ Explain", key=state_key + "_btn", use_container_width=True):
                                 with st.spinner("Analysing..."):
                                     resume = st.session_state.profile["resume"].strip()[:2000]
@@ -1046,15 +1089,16 @@ Paste a job description below and we'll score it based on your **resume**, **tar
                                         explanation = explanation.get("response", str(explanation))
                                     st.session_state[state_key] = str(explanation)
                                 st.rerun()
+                            if st.button("✕ Remove", key=f"byo_del_{id(job)}", use_container_width=True):
+                                st.session_state.byo_jobs = [j for j in st.session_state.byo_jobs if id(j) != id(job)]
+                                st.rerun()
                         if st.session_state.get(state_key):
-                            with st.expander("Explanation", expanded=False):
-                                st.write(st.session_state[state_key])
-
+                            st.info(st.session_state[state_key])
                         if job.get("similar_occ"):
-                            codes = " · ".join(f"{o['code']} {o['title']}" for o in job["similar_occ"])
-                            st.markdown(f"<span style='font-size:0.8rem;color:#888'>Related: {codes}</span>", unsafe_allow_html=True)
-
-                        with st.expander("Evidence from job description", expanded=False):
+                            best = job["similar_occ"][0]
+                            st.markdown(f"**Closest occupation:** {best['code']} — {best['title']} &nbsp; <span style='color:#888'>({best['score']:.1%} similarity)</span>", unsafe_allow_html=True)
+                        if job.get("snippets"):
+                            st.markdown("**Evidence from job description:**")
                             for sent, _ in job["snippets"]:
                                 st.markdown(f"- {sent}")
 
