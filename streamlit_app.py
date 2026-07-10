@@ -873,16 +873,16 @@ else:
         filtered = occ_chart[mask]
         show_n = st.selectbox("Show top", [20, 50, 100, 200, len(filtered)], index=1, key="eo_topn")
         top_chart = filtered.head(show_n)
-        st.subheader("Job Posts by Occupation")
-        st.markdown("Each job post is matched to the SSOC occupation it is most similar to.")
-        fig2 = px.bar(
-            top_chart, x="job_post_count", y="title", orientation="h",
-            labels={"job_post_count": "Job Posts", "title": "Occupation"},
-            height=max(400, show_n * 20),
-            color="job_post_count", color_continuous_scale="Blues",
-        )
-        fig2.update_layout(yaxis=dict(autorange="reversed"), margin=dict(l=0, r=0, t=0, b=0))
-        st.plotly_chart(fig2, width="stretch")
+        # st.subheader("Job Posts by Occupation")
+        # st.markdown("Each job post is matched to the SSOC occupation it is most similar to.")
+        # fig2 = px.bar(
+        #     top_chart, x="job_post_count", y="title", orientation="h",
+        #     labels={"job_post_count": "Job Posts", "title": "Occupation"},
+        #     height=max(400, show_n * 20),
+        #     color="job_post_count", color_continuous_scale="Blues",
+        # )
+        # fig2.update_layout(yaxis=dict(autorange="reversed"), margin=dict(l=0, r=0, t=0, b=0))
+        # st.plotly_chart(fig2, width="stretch")
         st.subheader(f"{pmet_filter}: {len(filtered)} Occupations")
         display_cols = ["occ_code", "title", "job_post_count", "avg_sal_min", "avg_sal_max", "median_sal", "mean_exp", "median_exp"]
         display = filtered[display_cols].rename(columns={
