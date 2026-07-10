@@ -867,42 +867,6 @@ else:
                 pass
 
         st.divider()
-        st.subheader("Job Posts by Occupation")
-        st.markdown("Each job post is matched to the SSOC occupation it is most similar to.")
-        occ_chart = occ_stats_df.merge(emb_meta[["code", "title", "major_code"]], left_on="occ_code", right_on="code", how="left")
-        occ_chart = occ_chart.sort_values("job_post_count", ascending=False)
-
-        mask = occ_chart["major_code"].apply(filter_map.get(pmet_filter, lambda x: True))
-        filtered = occ_chart[mask]
-
-        show_n = st.selectbox("Show top", [20, 50, 100, 200, len(filtered)], index=1, key="eo_topn")
-        top_chart = filtered.head(show_n)
-        fig2 = px.bar(
-            top_chart, x="job_post_count", y="title", orientation="h",
-            labels={"job_post_count": "Job Posts", "title": "Occupation"},
-            height=max(400, show_n * 20),
-            color="job_post_count", color_continuous_scale="Blues",
-        )
-        fig2.update_layout(yaxis=dict(autorange="reversed"), margin=dict(l=0, r=0, t=0, b=0))
-        st.plotly_chart(fig2, width="stretch")
-        display_cols = ["occ_code", "title", "job_post_count", "avg_sal_min", "avg_sal_max", "median_sal", "mean_exp", "median_exp"]
-        display = filtered[display_cols].rename(columns={
-            "occ_code": "Code", "title": "Occupation", "job_post_count": "Job Posts",
-            "avg_sal_min": "Avg Sal Min", "avg_sal_max": "Avg Sal Max", "median_sal": "Median Sal",
-            "mean_exp": "Avg Exp (yr)", "median_exp": "Median Exp (yr)",
-        })
-        st.dataframe(display, width="stretch", hide_index=True,
-                     column_config={
-                         "Avg Sal Min": st.column_config.NumberColumn(format="$%.0f"),
-                         "Avg Sal Max": st.column_config.NumberColumn(format="$%.0f"),
-                         "Median Sal": st.column_config.NumberColumn(format="$%.0f"),
-                         "Avg Exp (yr)": st.column_config.NumberColumn(format="%.1f"),
-                         "Median Exp (yr)": st.column_config.NumberColumn(format="%.1f"),
-                         "Job Posts": st.column_config.NumberColumn(format="%d"),
-                     })
-
-        st.divider()
-        st.subheader(f"Top 50 Skills — {pmet_filter}")
         gtop = global_top_skills(50, major_filter=pmet_filter)
         gtop["rank"] = range(1, len(gtop) + 1)
         st.dataframe(
