@@ -836,36 +836,69 @@ else:
                 st.rerun()
         st.divider()
 
-        st.subheader("Occupation Map")
-        st.markdown("Click any point to view its profile.")
-        map_filtered = umap_df[umap_df["major_code"].apply(filter_map.get(pmet_filter, lambda x: True))]
-        map_merged = map_filtered.merge(
-            occ_stats_df[["occ_code", "job_post_count"]], left_on="code", right_on="occ_code", how="left"
-        )
-        map_merged["group"] = map_merged["major_code"].map(MAJOR_LABELS)
-        fig = px.scatter(
-            map_merged, x="x", y="y",
-            color="group",
-            color_discrete_map={MAJOR_LABELS[k]: v for k, v in MAJOR_COLORS.items()},
-            hover_data={"x": False, "y": False, "code": True, "title": True, "group": True, "job_post_count": True},
-            custom_data=["code", "title"],
-            labels={"color": "Major Group"}, height=500,
-        )
-        fig.update_traces(marker=dict(size=6, line=dict(width=0.5, color="white")), selector=dict(mode="markers"))
-        fig.update_layout(margin=dict(l=0, r=0, t=0, b=0), legend=dict(font=dict(size=10), orientation="h", y=-0.15),
-            xaxis=dict(visible=False), yaxis=dict(visible=False))
-        event = st.plotly_chart(fig, key="explore_map", on_select="rerun")
-        if event and event.selection and event.selection.points:
-            point = event.selection.points[0]
-            try:
-                code = int(point["customdata"][0])
-                st.query_params["occupation"] = str(code)
-                st.session_state.selected_code = code
-                st.session_state.page = "occupation"
-                st.rerun()
-            except (KeyError, IndexError, TypeError):
-                pass
+        # st.subheader("Occupation Map")
+        # st.markdown("Click any point to view its profile.")
+        # map_filtered = umap_df[umap_df["major_code"].apply(filter_map.get(pmet_filter, lambda x: True))]
+        # map_merged = map_filtered.merge(
+        #     occ_stats_df[["occ_code", "job_post_count"]], left_on="code", right_on="occ_code", how="left"
+        # )
+        # map_merged["group"] = map_merged["major_code"].map(MAJOR_LABELS)
+        # fig = px.scatter(
+        #     map_merged, x="x", y="y",
+        #     color="group",
+        #     color_discrete_map={MAJOR_LABELS[k]: v for k, v in MAJOR_COLORS.items()},
+        #     hover_data={"x": False, "y": False, "code": True, "title": True, "group": True, "job_post_count": True},
+        #     custom_data=["code", "title"],
+        #     labels={"color": "Major Group"}, height=500,
+        # )
+        # fig.update_traces(marker=dict(size=6, line=dict(width=0.5, color="white")), selector=dict(mode="markers"))
+        # fig.update_layout(margin=dict(l=0, r=0, t=0, b=0), legend=dict(font=dict(size=10), orientation="h", y=-0.15),
+        #     xaxis=dict(visible=False), yaxis=dict(visible=False))
+        # event = st.plotly_chart(fig, key="explore_map", on_select="rerun")
+        # if event and event.selection and event.selection.points:
+        #     point = event.selection.points[0]
+        #     try:
+        #         code = int(point["customdata"][0])
+        #         st.query_params["occupation"] = str(code)
+        #         st.session_state.selected_code = code
+        #         st.session_state.page = "occupation"
+        #         st.rerun()
+        #     except (KeyError, IndexError, TypeError):
+        #         pass
 
+        st.divider()
+        occ_chart = occ_stats_df.merge(emb_meta[["code", "title", "major_code"]], left_on="occ_code", right_on="code", how="left")
+        occ_chart = occ_chart.sort_values("job_post_count", ascending=False)
+        mask = occ_chart["major_code"].apply(filter_map.get(pmet_filter, lambda x: True))
+        filtered = occ_chart[mask]
+        show_n = st.selectbox("Show top", [20, 50, 100, 200, len(filtered)], index=1, key="eo_topn")
+        top_chart = filtered.head(show_n)
+        st.subheader("Job Posts by Occupation")
+        st.markdown("Each job post is matched to the SSOC occupation it is most similar to.")
+        fig2 = px.bar(
+            top_chart, x="job_post_count", y="title", orientation="h",
+            labels={"job_post_count": "Job Posts", "title": "Occupation"},
+            height=max(400, show_n * 20),
+            color="job_post_count", color_continuous_scale="Blues",
+        )
+        fig2.update_layout(yaxis=dict(autorange="reversed"), margin=dict(l=0, r=0, t=0, b=0))
+        st.plotly_chart(fig2, width="stretch")
+        st.subheader(f"{pmet_filter}: {len(filtered)} Occupations")
+        display_cols = ["occ_code", "title", "job_post_count", "avg_sal_min", "avg_sal_max", "median_sal", "mean_exp", "median_exp"]
+        display = filtered[display_cols].rename(columns={
+            "occ_code": "Code", "title": "Occupation", "job_post_count": "Job Posts",
+            "avg_sal_min": "Avg Sal Min", "avg_sal_max": "Avg Sal Max", "median_sal": "Median Sal",
+            "mean_exp": "Avg Exp (yr)", "median_exp": "Median Exp (yr)",
+        })
+        st.dataframe(display, width="stretch", hide_index=True,
+                     column_config={
+                         "Avg Sal Min": st.column_config.NumberColumn(format="$%.0f"),
+                         "Avg Sal Max": st.column_config.NumberColumn(format="$%.0f"),
+                         "Median Sal": st.column_config.NumberColumn(format="$%.0f"),
+                         "Avg Exp (yr)": st.column_config.NumberColumn(format="%.1f"),
+                         "Median Exp (yr)": st.column_config.NumberColumn(format="%.1f"),
+                         "Job Posts": st.column_config.NumberColumn(format="%d"),
+                     })
         st.divider()
         gtop = global_top_skills(50, major_filter=pmet_filter)
         gtop["rank"] = range(1, len(gtop) + 1)
