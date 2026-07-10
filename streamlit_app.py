@@ -352,7 +352,7 @@ def show_semantic_neighbourhood(code, title):
                    scaleanchor="x", scaleratio=1),
         showlegend=False,
     )
-    event = st.plotly_chart(fig, key=f"neighbourhood_{code}", width="stretch", on_select="rerun")
+    event = st.plotly_chart(fig, key=f"neighbourhood_{code}", on_select="rerun")
     if event and event.selection and event.selection.points:
         point = event.selection.points[0]
         try:
@@ -815,22 +815,26 @@ else:
             "3 - Associate Professionals": lambda x: x == 3,
         }
         st.subheader("Search Occupations")
-        st.markdown("Search by title — results appear below.")
-        search_q = st.text_input("Search occupation title", placeholder="e.g. data scientist", label_visibility="collapsed")
-        if search_q:
-            matches = df[df["occupation_title"].str.contains(search_q, case=False, na=False)]
-            for _, row in matches.head(20).iterrows():
-                code = int(row["occupation_code"])
-                with st.container(border=True):
-                    st.markdown(f"**{code}** — {row['occupation_title']}")
-                    if st.button("View", key=f"eo_s_{code}", width="stretch"):
-                        st.query_params["occupation"] = str(code)
-                        st.session_state.selected_code = code
-                        st.session_state.page = "occupation"
-                        st.rerun()
-                if len(matches) > 20:
-                    st.caption(f"... and {len(matches) - 20} more")
-            st.divider()
+        st.markdown("Search by code or title.")
+        map_merged = umap_df.merge(
+            occ_stats_df[["occ_code", "job_post_count"]], left_on="code", right_on="occ_code", how="left"
+        )
+        map_merged["group"] = map_merged["major_code"].map(MAJOR_LABELS)
+        occ_options = map_merged.dropna(subset=["title"]).sort_values("title")
+        occ_labels = {int(r["code"]): f"{int(r['code'])} — {r['title']}" for _, r in occ_options.iterrows()}
+        col_occ_search, col_occ_go = st.columns([4, 1])
+        with col_occ_search:
+            occ_search = st.selectbox("Search by code / title", options=list(occ_labels.keys()),
+                format_func=lambda c: occ_labels.get(c, ""),
+                placeholder="Search...", label_visibility="collapsed", index=None, key="explore_occ_search")
+        with col_occ_go:
+            if st.button("View", disabled=not occ_search, use_container_width=True):
+                code = int(occ_search)
+                st.query_params["occupation"] = str(code)
+                st.session_state.selected_code = code
+                st.session_state.page = "occupation"
+                st.rerun()
+        st.divider()
 
         st.subheader("Occupation Map")
         st.markdown("Click any point to view its profile.")
@@ -848,7 +852,8 @@ else:
             labels={"color": "Major Group"}, height=500,
         )
         fig.update_traces(marker=dict(size=6, line=dict(width=0.5, color="white")), selector=dict(mode="markers"))
-        fig.update_layout(margin=dict(l=0, r=0, t=0, b=0), legend=dict(font=dict(size=10)))
+        fig.update_layout(margin=dict(l=0, r=0, t=0, b=0), legend=dict(font=dict(size=10), orientation="h", y=-0.15),
+            xaxis=dict(visible=False), yaxis=dict(visible=False))
         event = st.plotly_chart(fig, key="explore_map", on_select="rerun")
         if event and event.selection and event.selection.points:
             point = event.selection.points[0]
@@ -872,16 +877,14 @@ else:
 
         show_n = st.selectbox("Show top", [20, 50, 100, 200, len(filtered)], index=1, key="eo_topn")
         top_chart = filtered.head(show_n)
-        fig = px.bar(
+        fig2 = px.bar(
             top_chart, x="job_post_count", y="title", orientation="h",
             labels={"job_post_count": "Job Posts", "title": "Occupation"},
             height=max(400, show_n * 20),
             color="job_post_count", color_continuous_scale="Blues",
         )
-        fig.update_layout(yaxis=dict(autorange="reversed"), margin=dict(l=0, r=0, t=0, b=0))
-        st.plotly_chart(fig, width="stretch")
-
-        st.subheader(f"{pmet_filter}: {len(filtered)} Occupations")
+        fig2.update_layout(yaxis=dict(autorange="reversed"), margin=dict(l=0, r=0, t=0, b=0))
+        st.plotly_chart(fig2, width="stretch")
         display_cols = ["occ_code", "title", "job_post_count", "avg_sal_min", "avg_sal_max", "median_sal", "mean_exp", "median_exp"]
         display = filtered[display_cols].rename(columns={
             "occ_code": "Code", "title": "Occupation", "job_post_count": "Job Posts",
