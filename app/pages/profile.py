@@ -31,7 +31,7 @@ def render_profile():
         if st.session_state.profile["resume"].strip():
             with st.spinner("Matching your resume to occupations..."):
                 api_results = api.search_occupations(
-                    st.session_state.profile["resume"].strip(), 5,
+                    st.session_state.profile["resume"].strip(), 6,
                 )
                 st.session_state.match_results = []
                 for r in api_results:
@@ -45,6 +45,7 @@ def render_profile():
                     top_res = st.session_state.match_results[0]
                     st.session_state.profile["preferred_code"] = top_res["code"]
                     st.session_state.profile["preferred_title"] = top_res["title"]
+                    st.session_state._just_auto_selected = True
                     st.session_state.jobs_dirty = True
 
     if st.session_state.profile["resume"].strip():
@@ -54,6 +55,13 @@ def render_profile():
         st.divider()
 
         st.subheader("Top Occupation Matches")
+        if st.session_state.get("_just_auto_selected"):
+            st.info(
+                f"We auto-selected your top match "
+                f"**{st.session_state.profile['preferred_code']} — {st.session_state.profile['preferred_title']}** "
+                f"as your target occupation. Change it below if you prefer another."
+            )
+            st.session_state._just_auto_selected = False
         if st.session_state.match_results:
             for row_i in range(0, len(st.session_state.match_results), 3):
                 cols = st.columns(3)
@@ -63,12 +71,20 @@ def render_profile():
                             st.markdown(f"##### {res['title']}")
                             st.markdown(f"Code: {res['code']}  \nMatch: {res['score']:.0%}")
                             sel = st.session_state.profile["preferred_code"] == res['code']
-                            if st.button("Select", key=f"sel_{res['code']}", width="stretch", disabled=sel,
-                                         type="primary" if sel else "secondary"):
-                                st.session_state.profile["preferred_code"] = res['code']
-                                st.session_state.profile["preferred_title"] = res['title']
-                                st.session_state.jobs_dirty = True
-                                st.rerun()
+                            col_sel, col_view = st.columns(2)
+                            with col_sel:
+                                if st.button("Select", key=f"sel_{res['code']}", width="stretch", disabled=sel,
+                                             type="primary" if sel else "secondary"):
+                                    st.session_state.profile["preferred_code"] = res['code']
+                                    st.session_state.profile["preferred_title"] = res['title']
+                                    st.session_state.jobs_dirty = True
+                                    st.rerun()
+                            with col_view:
+                                if st.button("View", key=f"view_{res['code']}", width="stretch"):
+                                    st.query_params["occupation"] = str(int(res['code']))
+                                    st.session_state.selected_code = int(res['code'])
+                                    st.session_state.page = "occupation"
+                                    st.rerun()
         else:
             st.info("Save your resume to see occupation matches.")
 
@@ -83,11 +99,19 @@ def render_profile():
             st.subheader("Target Occupation")
             if st.session_state.profile["preferred_code"]:
                 st.markdown(f"**{st.session_state.profile['preferred_code']}** — {st.session_state.profile['preferred_title']}")
-                if st.button("Clear target occupation"):
-                    st.session_state.profile["preferred_code"] = None
-                    st.session_state.profile["preferred_title"] = None
-                    st.session_state.jobs_dirty = True
-                    st.rerun()
+                col_clear, col_view = st.columns(2)
+                with col_clear:
+                    if st.button("Clear target occupation"):
+                        st.session_state.profile["preferred_code"] = None
+                        st.session_state.profile["preferred_title"] = None
+                        st.session_state.jobs_dirty = True
+                        st.rerun()
+                with col_view:
+                    if st.button("View occupation", use_container_width=True):
+                        st.query_params["occupation"] = str(int(st.session_state.profile["preferred_code"]))
+                        st.session_state.selected_code = int(st.session_state.profile["preferred_code"])
+                        st.session_state.page = "occupation"
+                        st.rerun()
             else:
                 st.warning("Select a target occupation from your matches above.")
         with col_career:
@@ -114,44 +138,3 @@ def render_profile():
                 st.session_state.jobs_dirty = True
             st.session_state.profile["career_direction"] = st.session_state.career_dir
 
-        st.divider()
-        st.subheader("Preferences")
-        col_s1, col_s2 = st.columns(2)
-        with col_s1:
-            st.slider("Max Experience (years)", 0, 20, key="max_exp_years")
-            if st.session_state.profile["max_exp"] != st.session_state.max_exp_years:
-                st.session_state.jobs_dirty = True
-            st.session_state.profile["max_exp"] = st.session_state.max_exp_years
-        with col_s2:
-            st.markdown("**Salary Range (SGD/month)**")
-            sal_min = st.number_input("Min Salary", min_value=0, max_value=100000, value=st.session_state.profile["sal_min"], step=500, key="sal_min_val")
-            sal_max = st.number_input("Max Salary", min_value=0, max_value=100000, value=st.session_state.profile["sal_max"], step=500, key="sal_max_val")
-            if st.session_state.profile["sal_min"] != sal_min or st.session_state.profile["sal_max"] != sal_max:
-                st.session_state.jobs_dirty = True
-            st.session_state.profile["sal_min"] = sal_min
-            st.session_state.profile["sal_max"] = sal_max
-        job_status = st.selectbox("Job Status", ["Open", "Closed", "All"], key="job_status_sel")
-        if st.session_state.profile["job_status_filter"] != job_status:
-            st.session_state.jobs_dirty = True
-        st.session_state.profile["job_status_filter"] = job_status
-
-        st.markdown("**Job Filters (applied in Find Jobs)**")
-        col_f1, col_f2 = st.columns(2)
-        with col_f1:
-            posted_within = st.selectbox(
-                "Posted Within", [None, 1, 3, 7, 14, 30, 90],
-                format_func=lambda x: "Any time" if x is None else f"Last {x} days",
-                key="posted_within_sel",
-            )
-            if st.session_state.profile["posted_within"] != posted_within:
-                st.session_state.jobs_dirty = True
-            st.session_state.profile["posted_within"] = posted_within
-        with col_f2:
-            source = st.text_input("Source (optional)", value=st.session_state.source_sel, key="source_sel")
-            if st.session_state.profile.get("source", "") != source:
-                st.session_state.jobs_dirty = True
-            st.session_state.profile["source"] = source
-        work_arrangement = st.text_input("Work Arrangement (optional)", value=st.session_state.work_arr_sel, key="work_arr_sel")
-        if st.session_state.profile.get("work_arrangement", "") != work_arrangement:
-            st.session_state.jobs_dirty = True
-        st.session_state.profile["work_arrangement"] = work_arrangement
