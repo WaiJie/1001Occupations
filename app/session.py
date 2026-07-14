@@ -28,6 +28,19 @@ def init_session():
             "preferred_code": None,
             "preferred_title": None,
             "career_direction": 0,
+        }
+        # Backfill any keys missing from a previously-saved profile dict.
+        _profile_defaults = {
+            "resume": "", "resume2": "",
+            "preferred_code": None, "preferred_title": None,
+            "career_direction": 0,
+        }
+        for k, v in _profile_defaults.items():
+            st.session_state.profile.setdefault(k, v)
+    if "career_dir" not in st.session_state:
+        st.session_state.career_dir = st.session_state.profile["career_direction"]
+    if "job_filters" not in st.session_state:
+        st.session_state.job_filters = {
             "max_exp": 20,
             "sal_min": 0,
             "sal_max": 50000,
@@ -36,32 +49,26 @@ def init_session():
             "source": "",
             "work_arrangement": "",
         }
-        # Backfill any keys missing from a previously-saved profile dict.
-        _profile_defaults = {
-            "resume": "", "resume2": "",
-            "preferred_code": None, "preferred_title": None,
-            "career_direction": 0, "max_exp": 20,
-            "sal_min": 0, "sal_max": 50000, "job_status_filter": "Open",
-            "posted_within": None, "source": "", "work_arrangement": "",
+        # Backfill any keys missing from a previously-saved job_filters dict.
+        _filter_defaults = {
+            "max_exp": 20, "sal_min": 0, "sal_max": 50000,
+            "job_status_filter": "Open", "posted_within": None,
+            "source": "", "work_arrangement": "",
         }
-        for k, v in _profile_defaults.items():
-            st.session_state.profile.setdefault(k, v)
-    if "job_status_filter" not in st.session_state.profile:
-        st.session_state.profile["job_status_filter"] = "Open"
-    if "career_dir" not in st.session_state:
-        st.session_state.career_dir = st.session_state.profile["career_direction"]
+        for k, v in _filter_defaults.items():
+            st.session_state.job_filters.setdefault(k, v)
     if "max_exp_years" not in st.session_state:
-        st.session_state.max_exp_years = st.session_state.profile["max_exp"]
+        st.session_state.max_exp_years = st.session_state.job_filters["max_exp"]
     if "sal_min_val" not in st.session_state:
-        st.session_state.sal_min_val = st.session_state.profile["sal_min"]
+        st.session_state.sal_min_val = st.session_state.job_filters["sal_min"]
     if "sal_max_val" not in st.session_state:
-        st.session_state.sal_max_val = st.session_state.profile["sal_max"]
+        st.session_state.sal_max_val = st.session_state.job_filters["sal_max"]
     if "posted_within_sel" not in st.session_state:
-        st.session_state.posted_within_sel = st.session_state.profile["posted_within"]
+        st.session_state.posted_within_sel = st.session_state.job_filters["posted_within"]
     if "source_sel" not in st.session_state:
-        st.session_state.source_sel = st.session_state.profile["source"]
+        st.session_state.source_sel = st.session_state.job_filters["source"]
     if "work_arr_sel" not in st.session_state:
-        st.session_state.work_arr_sel = st.session_state.profile["work_arrangement"]
+        st.session_state.work_arr_sel = st.session_state.job_filters["work_arrangement"]
     if "jobs_dirty" not in st.session_state:
         st.session_state.jobs_dirty = True
     if "prev_tab" not in st.session_state:

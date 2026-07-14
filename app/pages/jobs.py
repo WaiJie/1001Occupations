@@ -11,14 +11,15 @@ from app.components.job_card import render_job_card
 def compute_job_matches(resume_weight):
     resume_text = st.session_state.profile["resume"].strip()
     occ_code = st.session_state.profile["preferred_code"]
+    jf = st.session_state.job_filters
     filters = {
-        "sal_min": st.session_state.profile["sal_min"],
-        "sal_max": st.session_state.profile["sal_max"],
-        "max_exp": st.session_state.profile["max_exp"],
-        "job_status": st.session_state.profile["job_status_filter"],
-        "posted_within": st.session_state.profile["posted_within"],
-        "source": st.session_state.profile["source"],
-        "work_arrangement": st.session_state.profile["work_arrangement"],
+        "sal_min": jf["sal_min"],
+        "sal_max": jf["sal_max"],
+        "max_exp": jf["max_exp"],
+        "job_status": jf["job_status_filter"],
+        "posted_within": jf["posted_within"],
+        "source": jf["source"],
+        "work_arrangement": jf["work_arrangement"],
     }
 
     results = api.search_jobs(
@@ -56,47 +57,43 @@ def compute_job_matches(resume_weight):
 
 
 def render_job_filters():
-    """Job filters (state lives in st.session_state.profile). Any change marks
-    results dirty so they recompute on the next run."""
-    st.subheader("Filters")
-    col_s1, col_s2 = st.columns(2)
-    with col_s1:
-        st.slider("Max Experience (years)", 0, 20, key="max_exp_years")
-        if st.session_state.profile["max_exp"] != st.session_state.max_exp_years:
-            st.session_state.jobs_dirty = True
-        st.session_state.profile["max_exp"] = st.session_state.max_exp_years
-    with col_s2:
-        st.markdown("**Salary Range (SGD/month)**")
-        sal_min = st.number_input("Min Salary", min_value=0, max_value=100000, value=st.session_state.profile["sal_min"], step=500, key="sal_min_val")
-        sal_max = st.number_input("Max Salary", min_value=0, max_value=100000, value=st.session_state.profile["sal_max"], step=500, key="sal_max_val")
-        if st.session_state.profile["sal_min"] != sal_min or st.session_state.profile["sal_max"] != sal_max:
-            st.session_state.jobs_dirty = True
-        st.session_state.profile["sal_min"] = sal_min
-        st.session_state.profile["sal_max"] = sal_max
-    job_status = st.selectbox("Job Status", ["Open", "Closed", "All"], key="job_status_sel")
-    if st.session_state.profile["job_status_filter"] != job_status:
-        st.session_state.jobs_dirty = True
-    st.session_state.profile["job_status_filter"] = job_status
+    """Job filters live in st.session_state.job_filters. Widgets are wrapped in
+    a Streamlit form so editing a single control does NOT trigger an API call;
+    results are only recomputed when the user clicks 'Apply Filters'."""
+    jf = st.session_state.job_filters
+    with st.form("job_filters_form"):
+        st.subheader("Filters")
+        col_s1, col_s2 = st.columns(2)
+        with col_s1:
+            st.slider("Max Experience (years)", 0, 20, key="max_exp_years")
+        with col_s2:
+            st.markdown("**Salary Range (SGD/month)**")
+            st.number_input("Min Salary", min_value=0, max_value=100000, step=500, key="sal_min_val")
+            st.number_input("Max Salary", min_value=0, max_value=100000, step=500, key="sal_max_val")
+        st.selectbox("Job Status", ["Open", "Closed", "All"], key="job_status_sel")
 
-    col_f1, col_f2 = st.columns(2)
-    with col_f1:
-        posted_within = st.selectbox(
-            "Posted Within", [None, 1, 3, 7, 14, 30, 90],
-            format_func=lambda x: "Any time" if x is None else f"Last {x} days",
-            key="posted_within_sel",
-        )
-        if st.session_state.profile["posted_within"] != posted_within:
-            st.session_state.jobs_dirty = True
-        st.session_state.profile["posted_within"] = posted_within
-    with col_f2:
-        source = st.text_input("Source (optional)", value=st.session_state.source_sel, key="source_sel")
-        if st.session_state.profile.get("source", "") != source:
-            st.session_state.jobs_dirty = True
-        st.session_state.profile["source"] = source
-    work_arrangement = st.text_input("Work Arrangement (optional)", value=st.session_state.work_arr_sel, key="work_arr_sel")
-    if st.session_state.profile.get("work_arrangement", "") != work_arrangement:
+        col_f1, col_f2 = st.columns(2)
+        with col_f1:
+            st.selectbox(
+                "Posted Within", [None, 1, 3, 7, 14, 30, 90],
+                format_func=lambda x: "Any time" if x is None else f"Last {x} days",
+                key="posted_within_sel",
+            )
+        with col_f2:
+            st.text_input("Source (optional)", key="source_sel")
+        st.text_input("Work Arrangement (optional)", key="work_arr_sel")
+
+        submitted = st.form_submit_button("Apply Filters", type="primary", use_container_width=True)
+
+    if submitted:
+        jf["max_exp"] = st.session_state.max_exp_years
+        jf["sal_min"] = st.session_state.sal_min_val
+        jf["sal_max"] = st.session_state.sal_max_val
+        jf["job_status_filter"] = st.session_state.job_status_sel
+        jf["posted_within"] = st.session_state.posted_within_sel
+        jf["source"] = st.session_state.source_sel
+        jf["work_arrangement"] = st.session_state.work_arr_sel
         st.session_state.jobs_dirty = True
-    st.session_state.profile["work_arrangement"] = work_arrangement
 
 
 def render_jobs():

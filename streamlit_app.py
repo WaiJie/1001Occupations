@@ -88,7 +88,13 @@ else:
     if st.session_state.nav_tab != st.session_state.prev_tab:
         if st.session_state.nav_tab == "My Profile":
             st.session_state.career_dir = st.session_state.profile["career_direction"]
-            st.session_state.max_exp_years = st.session_state.profile["max_exp"]
+        elif st.session_state.nav_tab == "Find Jobs":
+            st.session_state.max_exp_years = st.session_state.job_filters["max_exp"]
+            st.session_state.sal_min_val = st.session_state.job_filters["sal_min"]
+            st.session_state.sal_max_val = st.session_state.job_filters["sal_max"]
+            st.session_state.posted_within_sel = st.session_state.job_filters["posted_within"]
+            st.session_state.source_sel = st.session_state.job_filters["source"]
+            st.session_state.work_arr_sel = st.session_state.job_filters["work_arrangement"]
         st.session_state.prev_tab = st.session_state.nav_tab
 
     tab = st.session_state.nav_tab
