@@ -9,6 +9,17 @@ import app.api.endpoints as api
 import app.utils as u
 
 
+def _safe_text(v):
+    if v is None or (isinstance(v, float) and pd.isna(v)):
+        return ""
+    return str(v)
+
+
+@st.cache_data(ttl=600, show_spinner=False)
+def _representative_jobs(row_text):
+    return api.search_jobs(row_text, 5)
+
+
 def top_n_similar(code, n=5):
     row = data.df[data.df["occupation_code"] == code]
     if row.empty:
@@ -38,9 +49,8 @@ def show_similarity_cards(code):
                     st.markdown(f"<div style='min-height:3em'>{stitle}</div>", unsafe_allow_html=True)
                     st.metric("Similarity", f"{ssim:.1%}")
                     if st.button("Open", key=f"sim_{scode}"):
-                        st.query_params["occupation"] = str(int(scode))
-                        st.session_state.selected_code = int(scode)
-                        st.session_state.page = "occupation"
+                        st.session_state.dialog_code = int(scode)
+                        st.session_state.dialog_open = True
                         st.rerun()
     else:
         st.info("No similar occupations found.")
@@ -113,20 +123,14 @@ def show_semantic_neighbourhood(code, title):
         try:
             clicked_code = int(point["customdata"][0])
             if clicked_code != code:
-                st.query_params["occupation"] = str(clicked_code)
-                st.session_state.selected_code = clicked_code
-                st.session_state.page = "occupation"
+                st.session_state.dialog_code = clicked_code
+                st.session_state.dialog_open = True
                 st.rerun()
         except (KeyError, IndexError, TypeError):
             pass
 
 
-def show_occupation_page(row):
-    if st.button("⬅ Back"):
-        del st.query_params["occupation"]
-        st.session_state.page = "home"
-        st.session_state.nav_target = {"search": "Explore Occupations", "map": "Explore Occupations", "profile": "My Profile", "job": "Find Jobs"}.get(st.session_state.return_to, "Home")
-        st.rerun()
+def render_occupation_content(row):
     code = int(row["occupation_code"])
     title = row["occupation_title"]
     titles = [u.proper_case(row[f"{l}_group_title"]) for l in ["major", "sub_major", "minor", "unit"]]
@@ -165,6 +169,7 @@ def show_occupation_page(row):
             st.session_state.profile["preferred_code"] = code
             st.session_state.profile["preferred_title"] = title
             st.session_state.jobs_dirty = True
+            st.session_state.dialog_open = True
             st.rerun()
     st.markdown(f"##### Overview {config.SOURCE_SSOC}", unsafe_allow_html=True)
     st.write(row["detailed_definitions"])
@@ -196,15 +201,12 @@ def show_occupation_page(row):
                             st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;· {vt} ({vc})")
         st.divider()
 
-    row_text = row["occupation_title"] + " " + (row.get("tasks", "") or "")
+    row_text = (_safe_text(row["occupation_title"]) + " " + _safe_text(row.get("tasks", ""))).strip()
     top_jobs = []
     try:
-        top_jobs = api.search_jobs(row_text, 5)
+        top_jobs = _representative_jobs(row_text)
     except Exception:
-        try:
-            top_jobs = api.search_jobs(row_text, 5)
-        except Exception:
-            st.warning("Could not load representative job posts. Please try again later.")
+        st.warning("Could not load representative job posts. Please try again later.")
     if top_jobs:
         st.markdown(f"##### Top Representative Job Posts {config.SOURCE_JOBS}", unsafe_allow_html=True)
         st.markdown("Highest-similarity job postings matched to this occupation.")
@@ -240,3 +242,18 @@ def show_occupation_page(row):
     show_semantic_neighbourhood(code, title)
     st.divider()
     show_similarity_cards(code)
+
+
+def _close_dialog():
+    st.session_state.dialog_open = False
+    if "occupation" in st.query_params:
+        del st.query_params["occupation"]
+
+
+@st.dialog("Occupation details", width="large", on_dismiss=_close_dialog)
+def show_occupation_dialog(code):
+    row = data.df[data.df["occupation_code"] == code]
+    if row.empty:
+        st.warning("Occupation not found.")
+        return
+    render_occupation_content(row.iloc[0])

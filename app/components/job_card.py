@@ -42,8 +42,8 @@ def render_job_card(res, idx, start_idx, resume_text):
         with col_btns:
             if res.get("url"):
                 state_key = f"explain_result_{id(res)}"
-                st.link_button("🚀 Apply", res["url"], type="primary", use_container_width=True)
-                if st.button("✨ Explain", key=f"explain_btn_{id(res)}", use_container_width=True):
+                st.link_button("🚀 Apply", res["url"], type="primary", width="stretch")
+                if st.button("✨ Explain", key=f"explain_btn_{id(res)}", width="stretch"):
                     with st.spinner("Analysing..."):
                         desc = res.get("combined_desc", "")[:2000]
                         prompt = f"In a few sentences, explain why this job is a good match. State which skills align and note any obvious gaps.\n\nResume:\n{resume_text[:2000]}\n\nJob Description:\n{desc}"
@@ -88,7 +88,7 @@ def render_byo_card(job, resume_weight_label, resume_weight):
             st.caption(preview)
         with col_btns:
             state_key = f"byo_explain_{id(job)}"
-            if st.button("✨ Explain", key=state_key + "_btn", use_container_width=True):
+            if st.button("✨ Explain", key=state_key + "_btn", width="stretch"):
                 with st.spinner("Analysing..."):
                     desc = job["description"][:2000]
                     prompt = f"In a few sentences, explain why this job is a good match. State which skills align and note any obvious gaps.\n\nResume:\n{st.session_state.profile['resume'].strip()[:2000]}\n\nJob Description:\n{desc}"
@@ -99,7 +99,7 @@ def render_byo_card(job, resume_weight_label, resume_weight):
                         explanation = explanation.get("response", str(explanation))
                     st.session_state[state_key] = str(explanation)
                 st.rerun()
-            if st.button("✕ Remove", key=f"byo_del_{id(job)}", use_container_width=True):
+            if st.button("✕ Remove", key=f"byo_del_{id(job)}", width="stretch"):
                 st.session_state.byo_jobs = [j for j in st.session_state.byo_jobs if id(j) != id(job)]
                 st.rerun()
         if st.session_state.get(state_key):

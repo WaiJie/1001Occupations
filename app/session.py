@@ -7,6 +7,10 @@ def init_session():
         st.session_state.page = "home"
     if "selected_code" not in st.session_state:
         st.session_state.selected_code = None
+    if "dialog_open" not in st.session_state:
+        st.session_state.dialog_open = False
+    if "dialog_code" not in st.session_state:
+        st.session_state.dialog_code = None
     if "match_results" not in st.session_state:
         st.session_state.match_results = None
     if "return_to" not in st.session_state:

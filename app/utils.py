@@ -9,6 +9,9 @@ import streamlit as st
 
 
 def proper_case(s):
+    if s is None or (isinstance(s, float) and pd.isna(s)):
+        return ""
+    s = str(s)
     return re.sub(
         r'\([^)]*\)|[^\s(]+',
         lambda m: m.group(0) if m.group(0).startswith("(") else m.group(0).title(),

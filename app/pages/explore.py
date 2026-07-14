@@ -4,6 +4,22 @@ import streamlit as st
 from app import config, data
 
 
+def _explore_map_select():
+    state = st.session_state.get("explore_map")
+    if state is None:
+        return
+    sel = state.get("selection", {}) if isinstance(state, dict) else getattr(state, "selection", {})
+    pts = (sel or {}).get("points", []) if isinstance(sel, dict) else getattr(sel, "points", []) or []
+    if not pts:
+        return
+    try:
+        code = int(pts[0]["customdata"][0])
+    except (KeyError, IndexError, TypeError):
+        return
+    st.session_state.dialog_code = code
+    st.session_state.dialog_open = True
+
+
 def render_explore():
     st.subheader("Search Occupations")
     st.markdown("Search by code or title.")
@@ -19,11 +35,9 @@ def render_explore():
             format_func=lambda c: occ_labels.get(c, ""),
             placeholder="Search...", label_visibility="collapsed", index=None, key="explore_occ_search")
     with col_occ_go:
-        if st.button("View", disabled=not occ_search, use_container_width=True):
-            code = int(occ_search)
-            st.query_params["occupation"] = str(code)
-            st.session_state.selected_code = code
-            st.session_state.page = "occupation"
+        if st.button("View", disabled=not occ_search, width="stretch"):
+            st.session_state.dialog_code = int(occ_search)
+            st.session_state.dialog_open = True
             st.rerun()
 
     st.subheader("Occupation Map")
@@ -42,16 +56,12 @@ def render_explore():
         labels={"color": "Major Group"}, height=500,
     )
     fig.update_traces(marker=dict(size=6, line=dict(width=0.5, color="white")), selector=dict(mode="markers"))
+    # Keep selected/unselected visually identical so a click doesn't darken/dim
+    # the map — the click just pops the occupation modal.
+    fig.update_traces(
+        selected=dict(marker=dict(opacity=1)),
+        unselected=dict(marker=dict(opacity=1)),
+    )
     fig.update_layout(margin=dict(l=0, r=0, t=0, b=0), legend=dict(font=dict(size=10), orientation="h", y=-0.15),
         xaxis=dict(visible=False), yaxis=dict(visible=False))
-    event = st.plotly_chart(fig, key="explore_map", on_select="rerun")
-    if event and event.selection and event.selection.points:
-        point = event.selection.points[0]
-        try:
-            code = int(point["customdata"][0])
-            st.query_params["occupation"] = str(code)
-            st.session_state.selected_code = code
-            st.session_state.page = "occupation"
-            st.rerun()
-        except (KeyError, IndexError, TypeError):
-            pass
+    st.plotly_chart(fig, key="explore_map", on_select=_explore_map_select)

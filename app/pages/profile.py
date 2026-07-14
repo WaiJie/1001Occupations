@@ -81,9 +81,8 @@ def render_profile():
                                     st.rerun()
                             with col_view:
                                 if st.button("View", key=f"view_{res['code']}", width="stretch"):
-                                    st.query_params["occupation"] = str(int(res['code']))
-                                    st.session_state.selected_code = int(res['code'])
-                                    st.session_state.page = "occupation"
+                                    st.session_state.dialog_code = int(res['code'])
+                                    st.session_state.dialog_open = True
                                     st.rerun()
         else:
             st.info("Save your resume to see occupation matches.")
@@ -107,10 +106,9 @@ def render_profile():
                         st.session_state.jobs_dirty = True
                         st.rerun()
                 with col_view:
-                    if st.button("View occupation", use_container_width=True):
-                        st.query_params["occupation"] = str(int(st.session_state.profile["preferred_code"]))
-                        st.session_state.selected_code = int(st.session_state.profile["preferred_code"])
-                        st.session_state.page = "occupation"
+                    if st.button("View occupation", width="stretch"):
+                        st.session_state.dialog_code = int(st.session_state.profile["preferred_code"])
+                        st.session_state.dialog_open = True
                         st.rerun()
             else:
                 st.warning("Select a target occupation from your matches above.")

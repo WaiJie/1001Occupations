@@ -83,7 +83,7 @@ def render_job_filters():
             st.text_input("Source (optional)", key="source_sel")
         st.text_input("Work Arrangement (optional)", key="work_arr_sel")
 
-        submitted = st.form_submit_button("Apply Filters", type="primary", use_container_width=True)
+        submitted = st.form_submit_button("Apply Filters", type="primary", width="stretch")
 
     if submitted:
         jf["max_exp"] = st.session_state.max_exp_years
